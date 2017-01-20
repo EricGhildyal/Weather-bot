@@ -7,7 +7,7 @@ function respond() {
       botRegex = /^\/weather .*/g;
 
   if(request.text && botRegex.test(request.text)) {
-    var city = request.text.replace(/\/weather/, ' ');
+    var city = request.text.replace(/\/weather/g, ' ');
     this.res.writeHead(200);
     postMessage(city);
     this.res.end();
@@ -55,6 +55,8 @@ function postMessage(city) {
 }
 
 function getWeather(city){
+  console.log(city);
+  city = city.replace(/^ */g, "");
   console.log(city);
   if(city == "help"){
     return "Default city is Pittsburgh, use /weather [city] for other cities \n More features to come!";
