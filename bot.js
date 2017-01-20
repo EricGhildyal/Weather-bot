@@ -55,8 +55,8 @@ function postMessage(city) {
 }
 
 function getWeather(city){
-  console.log("city= " + city);
-  if(city === "help"){
+  console.log(city);
+  if(city == "help"){
     return "Default city is Pittsburgh, use /weather [city] for other cities \n More features to come!";
   }else{
     return "I didn't understand that :(";
