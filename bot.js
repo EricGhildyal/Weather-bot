@@ -64,7 +64,7 @@ function getWeather(city){
 
   var cityCode = -1;
   for(var i = 0; i < json.length(); i++){ //loop trough json file checking for a city name match
-    if(city == json.[i].name.toLowerCase()){
+    if(city == json[i].name.toLowerCase()){
       cityCode = json.[i]._id;
       break;
     }
