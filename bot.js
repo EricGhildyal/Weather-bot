@@ -59,7 +59,7 @@ function getWeather(city){
   city = city.replace(/^ */g, "");
   console.log(city);
   if(city == "help"){
-    return "Default city is Pittsburgh, use /weather [city] for other cities \n More features to come!";
+    return "Default city is Pittsburgh \n use /weather [city] for other cities \n More features to come!";
   }else{
     return "I didn't understand that :(";
   }
