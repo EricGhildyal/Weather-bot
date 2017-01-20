@@ -55,7 +55,7 @@ function postMessage(city) {
 }
 
 function getWeather(city){
-  var cityList = require("./city-list.json");
+  var cityList = require("city-list.json");
   city = city.replace(/^ */g, ""); //remove weird whitespace being added
   console.log(city);
   if(city == "help"){ //first thing to check
