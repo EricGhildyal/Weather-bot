@@ -56,8 +56,11 @@ function postMessage(city) {
 function getWeather(city){
   var city = new String(city.toLowerCase());
   console.log("city= "  + city);
-  if(city == "help")
+  if(city == "help"){
     return "Default city is Pittsburgh, use /Weather [city] for other cities";
+  }else{
+    return "I didn't understand that :(";
+  }
 }
 
 
