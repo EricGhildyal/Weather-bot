@@ -7,7 +7,7 @@ function respond() {
       botRegex = /\/weather .*/g;
 
   if(request.text && botRegex.test(request.text)) {
-    var city = request.text.replace(/^\/weather$/g, ' ');
+    var city = request.text.replace(/\/weather/, ' ');
     console.log("city = " + city);
     this.res.writeHead(200);
     postMessage(city);
