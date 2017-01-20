@@ -4,11 +4,10 @@ var botID = process.env.BOT_ID;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
-      botRegex = /\/weather .*/g;
+      botRegex = /^\/weather .*/g;
 
   if(request.text && botRegex.test(request.text)) {
     var city = request.text.replace(/\/weather/, ' ');
-    console.log("city = " + city);
     this.res.writeHead(200);
     postMessage(city);
     this.res.end();
@@ -22,7 +21,7 @@ function respond() {
 function postMessage(city) {
   var botResponse, options, body, botReq;
 
-  botResponse = city;
+  botResponse = getWeather(city);
 
   options = {
     hostname: 'api.groupme.com',
@@ -54,8 +53,10 @@ function postMessage(city) {
   botReq.end(JSON.stringify(body));
 }
 
-function getWeather(location){
-
+function getWeather(city){
+  var city = new String(city.toLowerCase());
+  if(city == "help")
+    return "Default city is Pittsburgh, use /Weather [city] for other cities"
 }
 
 
