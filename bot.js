@@ -22,6 +22,7 @@ function postMessage(city) {
   var botResponse, options, body, botReq;
 
   botResponse = getWeather(city);
+  console.log("Resp = " + botResponse);
 
   options = {
     hostname: 'api.groupme.com',
