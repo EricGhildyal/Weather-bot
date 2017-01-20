@@ -4,10 +4,10 @@ var botID = process.env.BOT_ID;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
-      botRegex = /^\/weather$/;
+      botRegex = /\/weather .*/g;
 
   if(request.text && botRegex.test(request.text)) {
-    var city = botRegex.replace(/^\/weather$/g, ' ');
+    var city = request.text.replace(/^\/weather$/g, ' ');
     console.log("city = " + city);
     this.res.writeHead(200);
     postMessage(city);
