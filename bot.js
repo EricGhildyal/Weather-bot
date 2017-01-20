@@ -7,8 +7,10 @@ function respond() {
       botRegex = /^\/weather$/;
 
   if(request.text && botRegex.test(request.text)) {
+    var city = botRegex.replace(/^\/weather$/);
+    console.log(city);
     this.res.writeHead(200);
-    postMessage(request);
+    postMessage(city);
     this.res.end();
   } else {
     console.log("don't care");
@@ -17,11 +19,10 @@ function respond() {
   }
 }
 
-function postMessage(request) {
+function postMessage(city) {
   var botResponse, options, body, botReq;
 
-  console.log(request)
-  botResponse = "test";
+  botResponse = city;
 
   options = {
     hostname: 'api.groupme.com',
