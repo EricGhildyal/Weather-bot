@@ -55,13 +55,25 @@ function postMessage(city) {
 }
 
 function getWeather(city){
+  var json = require('city.list.json');
+  city = city.replace(/^ */g, ""); //remove weird whitespace being added
   console.log(city);
-  city = city.replace(/^ */g, "");
-  console.log(city);
-  if(city == "help"){
-    return "Default city is Pittsburgh \n use /weather [city] for other cities \n More features to come!";
+  if(city == "help"){ //first thing to check
+    return "Default city is Pittsburgh \n Use /weather [city] for other cities \n More features to come!";
+  }
+
+  var cityCode = -1;
+  for(var i = 0; i < json.length(); i++){ //loop trough json file checking for a city name match
+    if(city == json.[i].name.toLowerCase()){
+      cityCode = json.[i]._id;
+      break;
+    }
+  }
+
+  if(cityCode != -1){ //make sure city code was set
+    return "city code = " + cityCode;
   }else{
-    return "I didn't understand that :(";
+    return "I didn't understand that :("; //default response
   }
 }
 
