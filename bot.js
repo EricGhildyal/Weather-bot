@@ -20,7 +20,7 @@ function respond() {
 function postMessage(request) {
   var botResponse, options, body, botReq;
 
-
+  console.log(request)
   botResponse = "test";
 
   options = {
