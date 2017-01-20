@@ -55,7 +55,7 @@ function postMessage(city) {
 }
 
 function getWeather(city){
-  var json = require('city-list.json');
+  var cityList = require('./city-list.json');
   city = city.replace(/^ */g, ""); //remove weird whitespace being added
   console.log(city);
   if(city == "help"){ //first thing to check
@@ -63,9 +63,9 @@ function getWeather(city){
   }
 
   var cityCode = -1;
-  for(var i = 0; i < json.length(); i++){ //loop trough json file checking for a city name match
-    if(city == json[i].name.toLowerCase()){
-      cityCode = json[i]._id;
+  for(var i = 0; i < cityList.length(); i++){ //loop trough json file checking for a city name match
+    if(city == cityList[i].name.toLowerCase()){
+      cityCode = cityList[i]._id;
       break;
     }
   }
