@@ -1,5 +1,4 @@
 var HTTPS = require('https');
-var cool = require('cool-ascii-faces');
 
 var botID = process.env.BOT_ID;
 
@@ -9,7 +8,7 @@ function respond() {
 
   if(request.text && botRegex.test(request.text)) {
     this.res.writeHead(200);
-    postMessage();
+    postMessage(request);
     this.res.end();
   } else {
     console.log("don't care");
@@ -18,10 +17,11 @@ function respond() {
   }
 }
 
-function postMessage() {
+function postMessage(request) {
   var botResponse, options, body, botReq;
 
-  botResponse = cool();
+
+  botResponse = request;
 
   options = {
     hostname: 'api.groupme.com',
@@ -51,6 +51,10 @@ function postMessage() {
     console.log('timeout posting message '  + JSON.stringify(err));
   });
   botReq.end(JSON.stringify(body));
+}
+
+function getWeather(location){
+
 }
 
 
