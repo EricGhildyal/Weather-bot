@@ -55,7 +55,7 @@ function postMessage(city) {
 }
 
 function getWeather(city){
-  var cityList = JSON.parse('/city-list.json');
+  var cityList = JSON.parse('city-list.json');
   console.log(cityList[1]);
   city = city.replace(/^ */g, ""); //remove weird whitespace being added
   console.log(city);
