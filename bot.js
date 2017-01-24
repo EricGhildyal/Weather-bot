@@ -73,7 +73,7 @@ function getWeather(city){
     var options = {
       host: 'api.openweathermap.org/data/2.5',
       port: 80,
-      path: '/weather?id=' + cityCode + '&units=imperial&appid=' + apiKey
+      path: '/weather?id=' + cityCode + '&units=imperial&appid=' + apiKey,
       method: 'POST'
     }
     http.request(options, function(res) {
