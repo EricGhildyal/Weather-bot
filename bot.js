@@ -55,7 +55,7 @@ function postMessage(city) {
 }
 
 function getWeather(city){
-  var cityList = JSON.parse('city-list.json');
+  var cityList = JSON.parse('./city-list.json');
   console.log(cityList[1]);
   city = city.replace(/^ */g, ""); //remove weird whitespace being added
   console.log(city);
@@ -64,15 +64,11 @@ function getWeather(city){
   }
 
   var cityCode = -1;
-  for(var i = 0; i < cityList.length(); i++){ //loop trough json file checking for a city name match
-    if(city == cityList[i].name.toLowerCase()){
-      cityCode = cityList[i]._id;
-      break;
-    }
-  }
+  cityCode = 1283240;
+  //check for city code in file
 
   if(cityCode != -1){ //make sure city code was set
-    return "city code = " + cityCode;
+    
   }else{
     return "I didn't understand that :("; //default response
   }
