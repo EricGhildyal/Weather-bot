@@ -75,15 +75,15 @@ function getWeather(city){
       port: 80,
       path: '/weather?id=' + cityCode + '&units=imperial&appid=' + apiKey,
       method: 'POST'
-    }
+    };
     http.request(options, function(res) {
       console.log('STATUS: ' + res.statusCode);
       console.log('HEADERS: ' + JSON.stringify(res.headers));
       res.setEncoding('utf8');
-      res.on('data', function (chunk) {
+      res.on('data', function(chunk) {
         dat = chunk;
       });
-      req.on('error', (e) => {
+      req.on('error', function(e)  {
         return "There was an error getting the data for " + city;
       });
     }).end();
