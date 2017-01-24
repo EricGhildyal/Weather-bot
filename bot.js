@@ -1,6 +1,7 @@
 var HTTPS = require('https');
 
 var botID = process.env.BOT_ID;
+var apiKey = process.env.API_KEY;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
@@ -54,11 +55,12 @@ function postMessage(city) {
   botReq.end(JSON.stringify(body));
 }
 
+// api call: http://api.openweathermap.org/data/2.5/weather?id=cityCode&units=imperial&appid=apiKey
 function getWeather(city){
-  var cityList = JSON.parse('./city-list.json');
-  console.log(cityList[1]);
+  var dat = null;
+  // console.log(cityList[1]);
   city = city.replace(/^ */g, ""); //remove weird whitespace being added
-  console.log(city);
+  // console.log(city);
   if(city == "help"){ //first thing to check
     return "Default city is Pittsburgh \n Use /weather [city] for other cities \n More features to come!";
   }
@@ -68,10 +70,33 @@ function getWeather(city){
   //check for city code in file
 
   if(cityCode != -1){ //make sure city code was set
-    
+    var options = {
+      host: 'api.openweathermap.org/data/2.5',
+      port: 80,
+      path: '/weather?id=' + cityCode + '&units=imperial&appid=' + apiKey
+      method: 'POST'
+    }
+    http.request(options, function(res) {
+      console.log('STATUS: ' + res.statusCode);
+      console.log('HEADERS: ' + JSON.stringify(res.headers));
+      res.setEncoding('utf8');
+      res.on('data', function (chunk) {
+        dat = chunk;
+      });
+      req.on('error', (e) => {
+        return "There was an error getting the data for " + city;
+      });
+    }).end();
   }else{
     return "I didn't understand that :("; //default response
   }
+
+  if(dat != null){
+    return dat.main.temp;
+  }else{
+    return "There was an unspecified error";
+  }
+
 }
 
 
