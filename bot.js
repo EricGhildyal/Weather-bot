@@ -1,4 +1,5 @@
 var HTTPS = require('https');
+var http = require('http');
 
 var botID = process.env.BOT_ID;
 var apiKey = process.env.API_KEY;
