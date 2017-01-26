@@ -74,18 +74,16 @@ function processWeather(city){
 
   if(cityCode != -1){ //make sure city code was set
     getWeather(cityCode, function(body){ //cal api, wait for callback
-      dat = body;
+      console.log("dat: " + dat);
+      if(dat != null){
+        return dat.main.temp;
+      }else{
+        return "Nothing was returned"; //"There was an unspecified error"
+      }
     });
   }else{
     return "I didn't understand that :("; //default response
   }
-  console.log("dat: " + dat);
-  if(dat != null){
-    return dat.main.temp;
-  }else{
-    return "Nothing was returned"; //"There was an unspecified error"
-  }
-
 }
 
 function getWeather(cityCode, callback){
