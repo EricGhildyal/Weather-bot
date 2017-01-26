@@ -2,7 +2,6 @@ var HTTPS = require('https');
 var request = require('request');
 
 var botID = process.env.BOT_ID;
-var apiKey = process.env.API_KEY;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
@@ -40,9 +39,8 @@ function processWeather(city, callback){ //callback is to send the message
 
   if(cityCode != -1){ //make sure city code was set
     getWeather(cityCode, function(dat){ //cal api, wait for callback
-      console.log(dat);
       if(dat != null || dat != undefined){
-        callback("The weather for " + dat.name + " is F"); //form the full message to be sent
+        callback("The weather for " + dat.name + " is " + dat.main.temp + "F"); //form the full message to be sent
       }else{
         callback("Nothing Found :(");
       }
@@ -53,7 +51,7 @@ function processWeather(city, callback){ //callback is to send the message
 }
  //function to call openwaethermap API, callback to processWeather
 function getWeather(cityCode, callback){
-  var url = "http://api.openweathermap.org/data/2.5/weather?id=" + cityCode + "&units=imperial&appid="+ apiKey;
+  var url = "http://api.openweathermap.org/data/2.5/weather?id=" + cityCode + "&units=imperial&appid=aa18b5edfa68b9272ef1cd13f4602abe";
   request({
   url: url,
   json: true
