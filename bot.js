@@ -80,7 +80,7 @@ function getWeather(city){
     url: url,
     json: true
     }, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
+      if (!error) {
         dat = body;
       }else{
         return "Error " + response.statusCode;
@@ -89,8 +89,8 @@ function getWeather(city){
   }else{
     return "I didn't understand that :("; //default response
   }
-
-  if(dat != null){
+  
+  if(dat != undefined){
     return dat.main.temp;
   }else{
     return "There was an unspecified error";
