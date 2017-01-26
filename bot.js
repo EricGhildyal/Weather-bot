@@ -10,7 +10,19 @@ function respond() {
   if(request.text && botRegex.test(request.text)) {
     var city = request.text.replace(/\/weather/g, ' ');
     this.res.writeHead(200);
-    postMessage(city);
+    city = city.replace(/^ */g, ""); //remove weird whitespace being added
+    if(city == "help"){ //first thing to check
+      return "Default city is Pittsburgh \n Use /weather [city] for other cities \n More features to come!";
+    }
+
+    if(city == " "){
+      console.log("Defaulted to PGH!!!!");
+      //default to pittsburgh
+    }
+
+    processWeather(city, function(response){
+      postMessage(response);
+    });
     this.res.end();
   } else {
     console.log("don't care");
@@ -19,10 +31,48 @@ function respond() {
   }
 }
 
-function postMessage(city) {
+// api call: http://api.openweathermap.org/data/2.5/weather?id=cityCode&units=imperial&appid=apiKey
+function processWeather(city, callback){
+  var dat = null;
+
+  var cityCode = -1;
+  cityCode = 1283240; //Kathmandu example
+  //check for city code in file
+
+  if(cityCode != -1){ //make sure city code was set
+    getWeather(cityCode, function(body){ //cal api, wait for callback
+      console.log("dat: " + dat);
+      if(dat != null){
+        callback(dat.main.temp);
+      }else{
+        callback("Nothing was returned"); //"There was an unspecified error"
+      }
+    });
+  }else{
+    callback("I didn't understand that :("); //default response
+  }
+}
+
+function getWeather(cityCode, callback){
+  var url = "http://api.openweathermap.org/data/2.5/weather?id=" + cityCode + "&units=imperial&appid=aa18b5edfa68b9272ef1cd13f4602abe";
+  request({
+  url: url,
+  json: true
+  }, function (error, response, body) {
+    if (!error) {
+      console.log("body: " + body.main.temp);
+      callback(body);
+    }else{
+      console.log("Error " + response.statusCode);
+    }
+  })
+}
+
+
+function postMessage(resp) {
   var botResponse, options, body, botReq;
 
-  botResponse = processWeather(city);
+  botResponse = resp;
   console.log("Resp = " + botResponse);
 
   options = {
@@ -54,52 +104,5 @@ function postMessage(city) {
   });
   botReq.end(JSON.stringify(body));
 }
-
-// api call: http://api.openweathermap.org/data/2.5/weather?id=cityCode&units=imperial&appid=apiKey
-function processWeather(city){
-  var dat = null;
-  city = city.replace(/^ */g, ""); //remove weird whitespace being added
-  if(city == "help"){ //first thing to check
-    return "Default city is Pittsburgh \n Use /weather [city] for other cities \n More features to come!";
-  }
-
-  if(city == " "){
-    console.log("Defaulted to PGH!!!!");
-    //default to pittsburgh
-  }
-
-  var cityCode = -1;
-  cityCode = 1283240; //Kathmandu example
-  //check for city code in file
-
-  if(cityCode != -1){ //make sure city code was set
-    getWeather(cityCode, function(body){ //cal api, wait for callback
-      console.log("dat: " + dat);
-      if(dat != null){
-        return dat.main.temp;
-      }else{
-        return "Nothing was returned"; //"There was an unspecified error"
-      }
-    });
-  }else{
-    return "I didn't understand that :("; //default response
-  }
-}
-
-function getWeather(cityCode, callback){
-  var url = "http://api.openweathermap.org/data/2.5/weather?id=" + cityCode + "&units=imperial&appid=aa18b5edfa68b9272ef1cd13f4602abe";
-  request({
-  url: url,
-  json: true
-  }, function (error, response, body) {
-    if (!error) {
-      console.log("body: " + body);
-      callback(body);
-    }else{
-      return "Error " + response.statusCode;
-    }
-  })
-}
-
 
 exports.respond = respond;
