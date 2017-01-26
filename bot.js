@@ -22,7 +22,7 @@ function respond() {
 function postMessage(city) {
   var botResponse, options, body, botReq;
 
-  botResponse = getWeather(city);
+  botResponse = processWeather(city);
   console.log("Resp = " + botResponse);
 
   options = {
@@ -56,7 +56,7 @@ function postMessage(city) {
 }
 
 // api call: http://api.openweathermap.org/data/2.5/weather?id=cityCode&units=imperial&appid=apiKey
-function getWeather(city){
+function processWeather(city){
   var dat = null;
   city = city.replace(/^ */g, ""); //remove weird whitespace being added
   if(city == "help"){ //first thing to check
@@ -72,31 +72,36 @@ function getWeather(city){
   cityCode = 1283240; //Kathmandu example
   //check for city code in file
 
-  var url = "http://api.openweathermap.org/data/2.5/weather?id=" + cityCode + "&units=imperial&appid=aa18b5edfa68b9272ef1cd13f4602abe";
-
   if(cityCode != -1){ //make sure city code was set
     console.log("URL: " + url);
-    request({
-    url: url,
-    json: true
-    }, function (error, response, body) {
-      if (!error) {
-        console.log(body);
-        dat = body;
-      }else{
-        return "Error " + response.statusCode;
-      }
-    })
+    getWeather(cityCode, function(body){ //cal api, wait for callback
+      dat = body;
+    });
   }else{
     return "I didn't understand that :("; //default response
   }
-  console.log(dat);
+  console.log("dat: " + dat);
   if(dat != null){
     return dat.main.temp;
   }else{
-    return "There was an unspecified error";
+    return "Nothing was returned"; //"There was an unspecified error"
   }
 
+}
+
+function getWeather(cityCode, callback){
+  var url = "http://api.openweathermap.org/data/2.5/weather?id=" + cityCode + "&units=imperial&appid=aa18b5edfa68b9272ef1cd13f4602abe";
+  request({
+  url: url,
+  json: true
+  }, function (error, response, body) {
+    if (!error) {
+      console.log("body: " + body);
+      callback(body);
+    }else{
+      return "Error " + response.statusCode;
+    }
+  })
 }
 
 
