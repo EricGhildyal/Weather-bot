@@ -40,7 +40,7 @@ function processWeather(city, callback){
   //check for city code in file
 
   if(cityCode != -1){ //make sure city code was set
-    getWeather(cityCode, function(body){ //cal api, wait for callback
+    getWeather(cityCode, function(dat){ //cal api, wait for callback
       console.log("dat: " + dat);
       if(dat != null){
         callback(dat.main.temp);
