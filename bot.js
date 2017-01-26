@@ -1,5 +1,5 @@
 var HTTPS = require('https');
-var http = require('http');
+var request = require('request');
 
 var botID = process.env.BOT_ID;
 var apiKey = process.env.API_KEY;
@@ -59,35 +59,34 @@ function postMessage(city) {
 // api call: http://api.openweathermap.org/data/2.5/weather?id=cityCode&units=imperial&appid=apiKey
 function getWeather(city){
   var dat = null;
-  // console.log(cityList[1]);
   city = city.replace(/^ */g, ""); //remove weird whitespace being added
-  // console.log(city);
   if(city == "help"){ //first thing to check
     return "Default city is Pittsburgh \n Use /weather [city] for other cities \n More features to come!";
   }
 
+  if(city == " "){
+    console.log("Defaulted to PGH!!!!");
+    //default to pittsburgh
+  }
+
   var cityCode = -1;
-  cityCode = 1283240;
+  cityCode = 1283240; //Kathmandu example
   //check for city code in file
 
+  var url = "http://api.openweathermap.org/data/2.5/weather?id=" + cityCode + "&units=imperial&appid=" + apiKey;
+
   if(cityCode != -1){ //make sure city code was set
-    var options = {
-      host: 'api.openweathermap.org/data/2.5',
-      port: 80,
-      path: '/weather?id=' + cityCode + '&units=imperial&appid=' + apiKey,
-      method: 'GET'
-    };
-    http.request(options, function(res) {
-      console.log('STATUS: ' + res.statusCode);
-      console.log('HEADERS: ' + JSON.stringify(res.headers));
-      res.setEncoding('utf8');
-      res.on('data', function(chunk) {
-        dat = chunk;
-      });
-      req.on('error', function(e)  {
-        return "There was an error getting the data for " + city;
-      });
-    }).end();
+    console.log("URL: " + url);
+    request({
+    url: url,
+    json: true
+    }, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        dat = body;
+      }else{
+        return "Error " + response.statusCode;
+      }
+    })
   }else{
     return "I didn't understand that :("; //default response
   }
