@@ -3,7 +3,6 @@ var request = require('request');
 
 var botID = process.env.BOT_ID;
 var apiKey = process.env.API_KEY;
-
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
       botRegex = /^\/weather .*/g;
