@@ -81,6 +81,7 @@ function getWeather(city){
     json: true
     }, function (error, response, body) {
       if (!error) {
+        console.log(body);
         dat = body;
       }else{
         return "Error " + response.statusCode;
@@ -90,7 +91,7 @@ function getWeather(city){
     return "I didn't understand that :("; //default response
   }
   console.log(dat);
-  if(dat != undefined){
+  if(dat != null){
     return dat.main.temp;
   }else{
     return "There was an unspecified error";
