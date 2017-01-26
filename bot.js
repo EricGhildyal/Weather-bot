@@ -10,16 +10,16 @@ function respond() {
   if(request.text && botRegex.test(request.text)) {
     var city = request.text.replace(/\/weather/g, ' ');
     this.res.writeHead(200);
-    console.log(city);
     city = city.replace(/^ */g, ""); //remove weird whitespace being added
     console.log(city);
     if(city == "help"){ //first thing to check
-      return "Default city is Pittsburgh \n Use /weather [city] for other cities \n More features to come!";
+      postMessage("Default city is Pittsburgh \n Use /weather [city] for other cities \n More features to come!");
+      this.res.end(); //end the bot early
     }
 
     if(city == ""){ //if no city given, default to PGH
       console.log("Defaulted to PGH!!!!");
-
+      city = 4277241;
     }
 
     processWeather(city, function(response){ //all other cities, process
@@ -36,8 +36,11 @@ function respond() {
 // api call: http://api.openweathermap.org/data/2.5/weather?id=cityCode&units=imperial&appid=apiKey
 function processWeather(city, callback){ //callback is to send the message
   var cityCode = -1;
-  cityCode = 1283240; //Kathmandu example
-  //check for city code in file
+  if(city = 4277241){ //handle Pittsburgh default
+    cityCode = city;
+  }else{
+    //check for city code in file
+  }
 
   if(cityCode != -1){ //make sure city code was set
     getWeather(cityCode, function(dat){ //cal api, wait for callback
