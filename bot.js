@@ -40,7 +40,7 @@ function processWeather(city, callback){ //callback is to send the message
 
   if(cityCode != -1){ //make sure city code was set
     getWeather(cityCode, function(dat){ //cal api, wait for callback
-      if(dat != null){
+      if(dat != null || dat != undefined){
         callback("The weather for " + dat.name + " is " + dat.main.temp + "F"); //form the full message to be sent
       }else{
         callback("Nothing Found :(");
