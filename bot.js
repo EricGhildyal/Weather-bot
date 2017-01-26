@@ -2,7 +2,7 @@ var HTTPS = require('https');
 var request = require('request');
 
 var botID = process.env.BOT_ID;
-var apiKey = process.env.API_KEY;
+
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
       botRegex = /^\/weather .*/g;
@@ -72,7 +72,7 @@ function getWeather(city){
   cityCode = 1283240; //Kathmandu example
   //check for city code in file
 
-  var url = "http://api.openweathermap.org/data/2.5/weather?id=" + cityCode + "&units=imperial&appid=" + apiKey;
+  var url = "http://api.openweathermap.org/data/2.5/weather?id=" + cityCode + "&units=imperial&appid=aa18b5edfa68b9272ef1cd13f4602abe";
 
   if(cityCode != -1){ //make sure city code was set
     console.log("URL: " + url);
