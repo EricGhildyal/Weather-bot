@@ -89,7 +89,7 @@ function getWeather(city){
   }else{
     return "I didn't understand that :("; //default response
   }
-  
+  console.log(dat);
   if(dat != undefined){
     return dat.main.temp;
   }else{
