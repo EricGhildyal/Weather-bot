@@ -73,7 +73,6 @@ function processWeather(city){
   //check for city code in file
 
   if(cityCode != -1){ //make sure city code was set
-    console.log("URL: " + url);
     getWeather(cityCode, function(body){ //cal api, wait for callback
       dat = body;
     });
