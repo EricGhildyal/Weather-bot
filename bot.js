@@ -10,14 +10,16 @@ function respond() {
   if(request.text && botRegex.test(request.text)) {
     var city = request.text.replace(/\/weather/g, ' ');
     this.res.writeHead(200);
+    console.log(city);
     city = city.replace(/^ */g, ""); //remove weird whitespace being added
+    console.log(city);
     if(city == "help"){ //first thing to check
       return "Default city is Pittsburgh \n Use /weather [city] for other cities \n More features to come!";
     }
 
     if(city == ""){ //if no city given, default to PGH
       console.log("Defaulted to PGH!!!!");
-      //default to pittsburgh
+
     }
 
     processWeather(city, function(response){ //all other cities, process
