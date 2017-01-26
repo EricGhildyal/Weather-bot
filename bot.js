@@ -1,7 +1,7 @@
 var HTTPS = require('https');
 var request = require('request');
 
-var botID = "1504df8f2628fdccb95a24405a";
+var botID = process.env.BOT_ID;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
@@ -43,7 +43,7 @@ function processWeather(city, callback){
     getWeather(cityCode, function(dat){ //cal api, wait for callback
       console.log("dat: " + dat);
       if(dat != null){
-        callback(dat.main.temp);
+        callback("The weather for " + dat.name + " is " + dat.main.temp);
       }else{
         callback("Nothing was returned"); //"There was an unspecified error"
       }
