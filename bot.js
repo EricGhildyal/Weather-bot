@@ -18,12 +18,12 @@ function respond() {
     var type = opts[1]; //type of forcast is second
     if(city == "help"){ //first thing to check
       postMessage("Default city is Pittsburgh \n Use /weather [city] for other cities \n More features to come!");
-      this.res.end(); //end the bot early
+      return; //end the response early
     }
 
     if(city == ""){ //if no city given, default to PGH
       console.log("Defaulted to PGH!!!!");
-      city = 4277241;
+      city = 5206379;
     }
 
     processWeather(city, function(response){ //all other cities, process
