@@ -8,9 +8,9 @@ function respond() {
       botRegex = /^\/weather*/g;
 
   if(request.text && botRegex.test(request.text)) {
-    var input = request.text.replace(/\/weather */g, ' '); //strip "/weather "
+    var input = request.text.replace(/\/weather/g, ' '); //strip "/weather "
     this.res.writeHead(200);
-    // city = city.replace(/^ */g, ""); //remove weird whitespace being added
+    input = input.replace(/^ */g, ""); //remove weird whitespace being added
     console.log(input);
     var opts = input.split(" ");
     console.log(opts);
