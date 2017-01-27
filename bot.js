@@ -14,8 +14,8 @@ function respond() {
     console.log(input);
     var opts = input.split(" ");
     console.log(opts);
-    var city = opt[0]; //city is the first
-    var type = opt[1]; //type of forcast is second
+    var city = opts[0]; //city is the first
+    var type = opts[1]; //type of forcast is second
     if(city == "help"){ //first thing to check
       postMessage("Default city is Pittsburgh \n Use /weather [city] for other cities \n More features to come!");
       this.res.end(); //end the bot early
