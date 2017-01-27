@@ -12,7 +12,7 @@ function respond() {
     this.res.writeHead(200);
     // city = city.replace(/^ */g, ""); //remove weird whitespace being added
     console.log(input);
-    var opts = city.split(" ");
+    var opts = input.split(" ");
     console.log(opts);
     var city = opt[0]; //city is the first
     var type = opt[1]; //type of forcast is second
