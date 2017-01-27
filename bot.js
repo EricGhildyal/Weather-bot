@@ -8,10 +8,14 @@ function respond() {
       botRegex = /^\/weather*/g;
 
   if(request.text && botRegex.test(request.text)) {
-    var city = request.text.replace(/\/weather/g, ' ');
+    var input = request.text.replace(/\/weather */g, ' '); //strip "/weather "
     this.res.writeHead(200);
-    city = city.replace(/^ */g, ""); //remove weird whitespace being added
-    console.log(city);
+    // city = city.replace(/^ */g, ""); //remove weird whitespace being added
+    console.log(input);
+    var opts = city.split(" ");
+    console.log(opts);
+    var city = opt[0]; //city is the first
+    var type = opt[1]; //type of forcast is second
     if(city == "help"){ //first thing to check
       postMessage("Default city is Pittsburgh \n Use /weather [city] for other cities \n More features to come!");
       this.res.end(); //end the bot early
@@ -44,8 +48,8 @@ function processWeather(city, callback){ //callback is to send the message
 
   if(cityCode != -1){ //make sure city code was set
     getWeather(cityCode, function(dat){ //cal api, wait for callback
-      if(dat != null || dat != undefined){
-        callback("The weather for " + dat.name + " is " + dat.main.temp + "F"); //form the full message to be sent
+      if(dat != undefined){
+        callback("It is currently " + Math.round(dat.main.temp) + "F in " + dat.name); //form the full message to be sent (rounding temp to nearest int)
       }else{
         callback("Nothing Found :(");
       }
@@ -75,7 +79,6 @@ function postMessage(resp) {
   var botResponse, options, body, botReq;
 
   botResponse = resp;
-  console.log("Resp = " + botResponse);
 
   options = {
     hostname: 'api.groupme.com',
