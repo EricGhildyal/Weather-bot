@@ -40,7 +40,7 @@ function respond() {
 // api call: http://api.openweathermap.org/data/2.5/weather?id=cityCode&units=imperial&appid=apiKey
 function processWeather(city, callback){ //callback is to send the message
   var cityCode = -1;
-  if(city = 4277241){ //handle Pittsburgh default
+  if(city = 5206379){ //handle Pittsburgh default
     cityCode = city;
   }else{
     //check for city code in file
