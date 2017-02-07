@@ -28,23 +28,27 @@ function respond() {
       return;
     }
 
-    if(city == ""){ //if no city given, default to global var
+    if(city == ""){ //default to global var
       city = defaultCity;
-      type = city; //there was no city given, so the city ends up being the type
+      type = city; //there was no city given, so the type ends up being in the city var
     }
 
     console.log("type: " + type);
 
+    var len = -1;
+
     if(type == "2day" || type == "2-day"){
       console.log("2 day selected");
+      len = 2;
     }
 
     if(type == "5day" || type == "5-day"){
       console.log("5 day selected");
+      len = 5;
     }
 
 
-    processWeather(city, function(response){ //all other cities, process
+    processWeather(city, len, function(response){ //all other cities, process
       postMessage(response);
     });
     this.res.end();
