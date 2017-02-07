@@ -15,7 +15,7 @@ function respond() {
     var opts = input.split(" ");
     console.log("opts: " + opts);
     var city = opts[0]; //city is the first, always set it
-    var type = NULL; // type of forecast
+    var type = null; // type of forecast
     if(opts.length > 1){
       type = opts[1]; //type is optional and should be the second
     }
