@@ -2,7 +2,7 @@ var HTTPS = require('https');
 var request = require('request');
 
 var botID = process.env.BOT_ID;
-var defultCity = 5206379; // set your defult city's code here
+var defaultCity = 5206379; // set your defult city's code here
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
@@ -53,7 +53,7 @@ function respond() {
 // api call: http://api.openweathermap.org/data/2.5/weather?id=cityCode&units=imperial&appid=apiKey
 function processWeather(city, callback){ //callback is to send the message
   var cityCode = -1;
-  if(city = defultCity){ //handle default city
+  if(city = defaultCity){ //handle default city
     cityCode = city;
   }else{
     //check for city code in file
