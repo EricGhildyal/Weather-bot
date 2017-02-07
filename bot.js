@@ -14,9 +14,11 @@ function respond() {
     console.log(input);
     var opts = input.split(" ");
     console.log("opts: " + opts);
-    var city = opts[0]; //city is the first
-    var type = opts[1]; //type of forcast is second
-
+    var city = opts[0]; //city is the first, always set it
+    var type = NULL; // type of forecast
+    if(opts.length > 1){
+      type = opts[1]; //type is optional and should be the second
+    }
     if(city == "help"){ //first thing to check
       postMessage("Default city is Pittsburgh \n Use /weather [city] for other cities \n More features to come!");
       return; //end the response early
