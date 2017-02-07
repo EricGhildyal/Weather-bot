@@ -9,9 +9,10 @@ function respond() {
       botRegex = /^\/weather*/g;
 
   if(request.text && botRegex.test(request.text)) {
-    var input = request.text.replace(/\/weather/g, ' '); //strip "/weather "
     this.res.writeHead(200);
-    input = input.replace(/^ */g, ""); //remove weird whitespace being added
+    var input = request.text.replace(/\/weather/, ' '); //strip "/weather "
+    input = input.replace(/^ */, ""); //remove weird whitespace being added
+
     var opts = input.split(" ");
     console.log("opts: " + opts);
     var city = opts[0]; //city is the first, always set it
@@ -23,13 +24,16 @@ function respond() {
     }
 
     if(city == "help"){ //first thing to check
-      postMessage("Default city is Pittsburgh \n Use /weather [city] for other cities \n More features to come!");
-      return; //end the response early
+      postMessage("Default city is Pittsburgh \n Use /weather [city] for other cities \n use '2day' or '5day' to get a longer forecast ");
+      return;
     }
 
     if(city == ""){ //if no city given, default to global var
       city = defaultCity;
+      type = city; //there was no city given, so the city ends up being the type
     }
+
+    console.log("type: " + type);
 
     if(type == "2day" || type == "2-day"){
       console.log("2 day selected");
@@ -38,6 +42,7 @@ function respond() {
     if(type == "5day" || type == "5-day"){
       console.log("5 day selected");
     }
+
 
     processWeather(city, function(response){ //all other cities, process
       postMessage(response);
@@ -53,11 +58,7 @@ function respond() {
 // api call: http://api.openweathermap.org/data/2.5/weather?id=cityCode&units=imperial&appid=apiKey
 function processWeather(city, callback){ //callback is to send the message
   var cityCode = -1;
-  if(city = defaultCity){ //handle default city
-    cityCode = city;
-  }else{
-    //check for city code in file
-  }
+  //check for city code in file
 
   if(cityCode != -1){ //make sure city code was set
     getWeather(cityCode, function(dat){ //cal api, wait for callback
