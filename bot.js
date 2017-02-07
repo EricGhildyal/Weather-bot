@@ -18,6 +18,7 @@ function respond() {
     var type = null; // type of forecast
     if(opts.length > 1){
       type = opts[1]; //type is optional and should be the second
+      type = type.toLowercase();
     }
     if(city == "help"){ //first thing to check
       postMessage("Default city is Pittsburgh \n Use /weather [city] for other cities \n More features to come!");
@@ -25,8 +26,15 @@ function respond() {
     }
 
     if(city == ""){ //if no city given, default to PGH
-      console.log("Defaulted to PGH!!!!");
       city = 5206379;
+    }
+
+    if(type == "2day" || type == "2-day"){
+      console.log("2 day selected");
+    }
+
+    if(type == "5day" || type == "5-day"){
+      console.log("5 day selected");
     }
 
     processWeather(city, function(response){ //all other cities, process
@@ -52,7 +60,7 @@ function processWeather(city, callback){ //callback is to send the message
   if(cityCode != -1){ //make sure city code was set
     getWeather(cityCode, function(dat){ //cal api, wait for callback
       if(dat != undefined){
-        callback("It is currently " + Math.round(dat.main.temp) + "F in " + dat.name); //form the full message to be sent (rounding temp to nearest int)
+        callback("It is currently " + Math.round(dat.main.temp) + "F (" + Math.round((dat.main.temp-32)*(5/9)) + "C) in " + dat.name); //form the full message to be sent (rounding temp to nearest int)
       }else{
         callback("Nothing Found :(");
       }
