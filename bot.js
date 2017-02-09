@@ -47,12 +47,13 @@ function processWeather(city, callback){ //callback is to send the message
     //check for city code in file
   }
 
-  if(cityCode != -1){ //make sure city code was set
+  if(cityCode != -1){
     getWeather(cityCode, function(dat){
       if(dat != undefined){
+
         var wind = function(dat){
           var ws = dat.wind.speed;
-          if(ws <= 12){ //wind data from beafort scale
+          if(ws <= 12){ //wind cutoffs from beafort scale
             return "slightly windy";
           }else if(ws <= 24){
             return "windy";
@@ -62,6 +63,7 @@ function processWeather(city, callback){ //callback is to send the message
             return "very very very windy";
           }
         };
+
         var rainOrSnow = function(dat){
           var resp;
           if(dat.rain.3h >= 0){
@@ -72,6 +74,7 @@ function processWeather(city, callback){ //callback is to send the message
           }
           return resp + " and";
         };
+
         callback("It is currently " +
         Math.round(dat.main.temp) + "F (" +
         Math.round((dat.main.temp-32)*(5/9)) + //calc temp in C
