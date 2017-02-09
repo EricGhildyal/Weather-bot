@@ -2,53 +2,31 @@ var HTTPS = require('https');
 var request = require('request');
 
 var botID = process.env.BOT_ID;
-var defaultCity = 5206379; // set your defult city's code here
+var defaultCity = 5206379;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
       botRegex = /^\/weather*/g;
 
   if(request.text && botRegex.test(request.text)) {
+    var input = request.text.replace(/\/weather/g, ' '); //strip "/weather "
     this.res.writeHead(200);
-    var input = request.text.replace(/\/weather/, ' '); //strip "/weather "
-    input = input.replace(/^ */, ""); //remove weird whitespace being added
+    input = input.replace(/^ */g, ""); //remove weird whitespace being added
 
-    var opts = input.split(" ");
-    console.log("opts: " + opts);
-    var city = opts[0]; //city is the first, always set it
-    var type = null; // type of forecast
-
-    if(opts.length > 1){
-      type = opts[1]; //type is optional and should be the second
-      type = type.toLowerCase();
-    }
+    city = input;
+    console.log("city: "+ city);
 
     if(city == "help"){ //first thing to check
-      postMessage("Default city is Pittsburgh \n Use /weather [city] for other cities \n use '2day' or '5day' to get a longer forecast ");
-      return;
+      postMessage("Default city is Pittsburgh \n Use /weather [city] for other cities \n More features to come!");
+      return; //end the response early
     }
 
-    if(city == ""){ //default to global var
-      type = city; //there was no city given, so the type ends up being in the city var
+    if(city == ""){ //if no city given, default to PGH
+      console.log("Defaulted to PGH!!!!");
       city = defaultCity;
     }
 
-    console.log("type: " + type);
-
-    var len = -1;
-
-    if(type == "2day" || type == "2-day"){
-      console.log("2 day selected");
-      len = 2;
-    }
-
-    if(type == "5day" || type == "5-day"){
-      console.log("5 day selected");
-      len = 5;
-    }
-
-
-    processWeather(city, len, function(response){ //all other cities, process
+    processWeather(city, function(response){ //all other cities, process
       postMessage(response);
     });
     this.res.end();
@@ -60,18 +38,21 @@ function respond() {
 }
 
 // api call: http://api.openweathermap.org/data/2.5/weather?id=cityCode&units=imperial&appid=apiKey
-function processWeather(city, len, callback){ //callback is to send the message
+function processWeather(city, callback){ //callback is to send the message
   var cityCode = -1;
-  //check for city code in file
-  if(city == defaultCity){ //handle default city
-    cityCode = defaultCity;
+  if(city = defaultCity){ //handle Pittsburgh default
+    cityCode = city;
+  }else{
+    //check for city code in file
   }
 
-
   if(cityCode != -1){ //make sure city code was set
-    getWeather(cityCode, len, function(dat){ //cal api, wait for callback
+    getWeather(cityCode, function(dat){
       if(dat != undefined){
-        callback("It is currently " + Math.round(dat.main.temp) + "F (" + Math.round((dat.main.temp-32)*(5/9)) + "C) in " + dat.name); //form the full message to be sent (rounding temp to nearest int)
+        callback("It is currently " +
+        Math.round(dat.main.temp) + "F (" +
+        Math.round((dat.main.temp-32)*(5/9)) + //calc temp in C
+        "C) in " + dat.name);
       }else{
         callback("Nothing Found :(");
       }
@@ -81,13 +62,8 @@ function processWeather(city, len, callback){ //callback is to send the message
   }
 }
  //function to call openwaethermap API, callback to processWeather
-function getWeather(cityCode, len, callback){
+function getWeather(cityCode, callback){
   var url = "http://api.openweathermap.org/data/2.5/weather?id=" + cityCode + "&units=imperial&appid=aa18b5edfa68b9272ef1cd13f4602abe";
-  if(len == 2){
-
-  }else if(len==5){
-
-  }
   request({
   url: url,
   json: true
