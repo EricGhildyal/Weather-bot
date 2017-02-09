@@ -40,7 +40,8 @@ function respond() {
 // api call: http://api.openweathermap.org/data/2.5/weather?id=cityCode&units=imperial&appid=apiKey
 function processWeather(city, callback){ //callback is to send the message
   var cityCode = -1;
-  if(city = defaultCity){ //handle Pittsburgh default
+  city = defaultCity; //TODO: get rid of this
+  if(city == defaultCity){ //handle Pittsburgh default
     cityCode = city;
   }else{
     //check for city code in file
@@ -49,10 +50,32 @@ function processWeather(city, callback){ //callback is to send the message
   if(cityCode != -1){ //make sure city code was set
     getWeather(cityCode, function(dat){
       if(dat != undefined){
+        var wind = function(dat){
+          var ws = dat.wind.speed;
+          if(ws <= 12){ //wind data from beafort scale
+            return "slightly windy";
+          }else if(ws <= 24){
+            return "windy";
+          }else if(ws <= 30){
+            return "very windy";
+          }else{
+            return "very very very windy";
+          }
+        };
+        var rainOrSnow = function(dat){
+          var resp;
+          if(dat.rain.3h >= 0){
+            resp += "raining"
+          }
+          if(dat.snow.3h >= 0){
+            resp += "snowing"
+          }
+          return resp + " and";
+        };
         callback("It is currently " +
         Math.round(dat.main.temp) + "F (" +
         Math.round((dat.main.temp-32)*(5/9)) + //calc temp in C
-        "C) in " + dat.name);
+        "C), "+ rainOrSnow + wind + "in " + dat.name);
       }else{
         callback("Nothing Found :(");
       }
