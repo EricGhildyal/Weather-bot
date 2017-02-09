@@ -29,8 +29,8 @@ function respond() {
     }
 
     if(city == ""){ //default to global var
-      city = defaultCity;
       type = city; //there was no city given, so the type ends up being in the city var
+      city = defaultCity;
     }
 
     console.log("type: " + type);
@@ -60,9 +60,13 @@ function respond() {
 }
 
 // api call: http://api.openweathermap.org/data/2.5/weather?id=cityCode&units=imperial&appid=apiKey
-function processWeather(city, callback){ //callback is to send the message
+function processWeather(city, len, callback){ //callback is to send the message
   var cityCode = -1;
   //check for city code in file
+  if(city == defaultCity){ //handle default city
+    cityCode = defaultCity;
+  }
+
 
   if(cityCode != -1){ //make sure city code was set
     getWeather(cityCode, function(dat){ //cal api, wait for callback
