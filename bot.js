@@ -69,7 +69,7 @@ function processWeather(city, len, callback){ //callback is to send the message
 
 
   if(cityCode != -1){ //make sure city code was set
-    getWeather(cityCode, function(dat){ //cal api, wait for callback
+    getWeather(cityCode, len, function(dat){ //cal api, wait for callback
       if(dat != undefined){
         callback("It is currently " + Math.round(dat.main.temp) + "F (" + Math.round((dat.main.temp-32)*(5/9)) + "C) in " + dat.name); //form the full message to be sent (rounding temp to nearest int)
       }else{
@@ -81,8 +81,13 @@ function processWeather(city, len, callback){ //callback is to send the message
   }
 }
  //function to call openwaethermap API, callback to processWeather
-function getWeather(cityCode, callback){
+function getWeather(cityCode, len, callback){
   var url = "http://api.openweathermap.org/data/2.5/weather?id=" + cityCode + "&units=imperial&appid=aa18b5edfa68b9272ef1cd13f4602abe";
+  if(len == 2){
+
+  }else if(len==5){
+
+  }
   request({
   url: url,
   json: true
