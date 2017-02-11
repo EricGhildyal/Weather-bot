@@ -12,7 +12,7 @@ function respond() {
       botRegex = /^\/weather*/g;
 
   mongoose.connect(mongoURI);
-  var db = mongoose.connection;
+  db = mongoose.connection;
 
   if(request.text && botRegex.test(request.text)) {
     var input = request.text.replace(/\/weather/g, ' '); //strip "/weather "
