@@ -61,9 +61,12 @@ function processWeather(city, callback){ //callback is to send the message
             return "very very very windy";
           }
         };
+        console.log("wind " + wind(dat));
 
         function rainOrSnow(dat){
           var resp;
+          console.log("dat.rain: " + dat.rain);
+          console.log("dat.snow: " + dat.snow);
           if(dat.rain[0] >= 0){
             resp += "raining";
           }
@@ -72,6 +75,7 @@ function processWeather(city, callback){ //callback is to send the message
           }
           return resp + " and";
         };
+        console.log("precip: " + rainOrSnow(dat));
 
         callback("It is currently " +
         Math.round(dat.main.temp) + "F (" +
