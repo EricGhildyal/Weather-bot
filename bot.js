@@ -66,10 +66,12 @@ function processWeather(city, callback){ //callback is to send the message
         function rainOrSnow(dat){
           var resp = "";
 
-          console.log(JSON.parse(dat.rain, function(key, value){
+          var tmp = JSON.parse(dat.rain, function(key, value){
             console.log(key + " " + value);
             return value;
-          }));
+          });
+
+          console.log("tmp " + tmp);
           // console.log(dat.snow[0]);
           if(dat.rain != undefined && dat.rain[0] >= 0){
             resp += "raining and";
