@@ -51,6 +51,7 @@ function processWeather(city, callback){ //callback is to send the message
     db.on('error', function(err){
       console.log("Connection to DB failed " + err);
     });
+
     db.on('open', function () { //maybe connected
       console.log("Db connected");
     });
@@ -69,9 +70,12 @@ function processWeather(city, callback){ //callback is to send the message
     var cityModel = mongoose.model('cityModel', citySchema);
 
     cityModel.find({'name': cityUpper}, '_id', function(err, id){
-      if(err) return -1;
+      if(err){
+        console.log(err);
+        return -1;
+      }
       cityCode = id;
-      console.log("id: id");
+      console.log("id:" + id);
     });
     mongoose.disconnect();
   }
