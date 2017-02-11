@@ -43,7 +43,8 @@ function processWeather(city, callback){ //callback is to send the message
   if(city == defaultCity){ //handle Pittsburgh default
     cityCode = city;
   }else{
-    if(city.)
+    var cityUpper = city.substring(0,1).toUpperCase() + city.substring(1);
+    console.log("cityUpper: " + cityUpper);
   }
 
   if(cityCode != -1){
