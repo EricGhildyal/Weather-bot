@@ -33,6 +33,7 @@ function respond() {
     processWeather(city, function(response){ //all other cities, process
       postMessage(response);
     });
+    mongoose.disconnect();
     this.res.end();
   } else {
     console.log("don't care");
