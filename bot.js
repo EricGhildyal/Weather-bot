@@ -65,10 +65,10 @@ function processWeather(city, callback){ //callback is to send the message
         var rainOrSnow = function(dat){
           var resp;
           if(dat.rain[0] >= 0){
-            resp += "raining"
+            resp += "raining";
           }
           if(dat.snow[0] >= 0){
-            resp += "snowing"
+            resp += "snowing";
           }
           return resp + " and";
         };
