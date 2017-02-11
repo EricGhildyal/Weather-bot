@@ -16,7 +16,6 @@ function respond() {
     input = input.replace(/^ */g, ""); //remove weird whitespace being added
 
     city = input;
-    console.log("city: "+ city);
 
     if(city == "help"){ //first thing to check
       postMessage("Default city is Pittsburgh \n Use /weather [city] for other cities \n More features to come!");
@@ -48,10 +47,11 @@ function processWeather(city, callback){ //callback is to send the message
     console.log("cityUpper: " + cityUpper);
 
     mongoose.connect(mongoURI);
-    console.log(mongoURI);
     var db = mongoose.connection;
     db.on('error', console.log("Connection to DB failed"));
-    console.log("Connected to DB");
+    db.on('open', function () { //maybe connected
+      console.log("Db connected");
+    });
     var Schema = mongoose.Schema;
 
     var citySchema = new Schema({
@@ -125,7 +125,7 @@ function processWeather(city, callback){ //callback is to send the message
  //function to call openwaethermap API, callback to processWeather
 function getWeather(cityCode, callback){
   var url = "http://api.openweathermap.org/data/2.5/weather?id=" + cityCode + "&units=imperial&appid=aa18b5edfa68b9272ef1cd13f4602abe";
-  console.log(url);
+  //console.log(url);
   request({
   url: url,
   json: true
