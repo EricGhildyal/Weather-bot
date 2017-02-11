@@ -3,14 +3,12 @@ var request = require('request');
 
 var botID = process.env.BOT_ID;
 var defaultCity = 5206379;
-var db;
+var db = mongoose.connection;
+mongoose.Promise = global.Promise;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
       botRegex = /^\/weather*/g;
-
-  db = mongoose.connection;
-  mongoose.Promise = global.Promise;
 
   if(request.text && botRegex.test(request.text)) {
     var input = request.text.replace(/\/weather/g, ' '); //strip "/weather "
