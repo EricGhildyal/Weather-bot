@@ -16,6 +16,18 @@ db.on('open', function (){
   console.log("Db connected");
 });
 
+var Schema = mongoose.Schema;
+var citySchema = new Schema({
+  "_id": Number,
+  "name": String,
+  "country": String,
+  "coord": {
+      "lon": Number,
+      "lat": Number
+  }
+});
+var cityModel = mongoose.model('cityModel', citySchema);
+
 router = new director.http.Router({
   '/' : {
     post: bot.respond,

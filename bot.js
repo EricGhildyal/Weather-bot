@@ -48,17 +48,6 @@ function respond() {
 
 function getCityFromDB(city, callback){
   console.log("entered getCityFromDB");
-  var Schema = mongoose.Schema;
-  var citySchema = new Schema({
-    "_id": Number,
-    "name": String,
-    "country": String,
-    "coord": {
-        "lon": Number,
-        "lat": Number
-    }
-  });
-  var cityModel = mongoose.model('cityModel', citySchema);
   cityModel.findOne({'name': city}, function(cit){
     console.log("cit " + cit._id);
     callback(cit._id);
