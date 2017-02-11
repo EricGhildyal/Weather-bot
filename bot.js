@@ -37,16 +37,6 @@ function respond() {
   }
 }
 
-function getCityFromDB(city, callback){
-  mongoose.connect(mongoURI);
-  var db = mongoose.connection;
-  db.on('error', function(err){
-    console.log("Connection to DB failed " + err);
-  });
-
-  db.on('open', function () { //maybe connected
-    console.log("Db connected");
-
 // api call: http://api.openweathermap.org/data/2.5/weather?id=cityCode&units=imperial&appid=apiKey
 function processWeather(city, callback){ //callback is to send the message
   var cityCode = -1;
@@ -135,7 +125,6 @@ function processWeather(city, callback){ //callback is to send the message
   }else{
     callback("I don't know what " + city + " is..."); //default response
   }
-
 }
 
  //function to call openwaethermap API, callback to processWeather
