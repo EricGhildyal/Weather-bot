@@ -1,5 +1,6 @@
 var HTTPS = require('https');
 var request = require('request');
+var mongoose = require('mongoose');
 
 var botID = process.env.BOT_ID;
 var defaultCity = 5206379;
