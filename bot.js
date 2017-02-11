@@ -49,19 +49,6 @@ function processWeather(city, callback){ //callback is to send the message
   if(cityCode != -1){
     getWeather(cityCode, function(dat){
       if(dat != undefined){
-        function wind(dat){
-          if(dat.wind == undefined) return;
-          var ws = dat.wind.speed;
-          if(ws <= 12){ //wind cutoffs from beafort scale
-            return " and slightly windy";
-          }else if(ws <= 19){
-            return " and windy";
-          }else if(ws <= 25){
-            return " and very windy";
-          }else{
-            return " and very very very windy";
-          }
-        };
 
         function rainOrSnow(dat){
           //turn JSON into string, strip all non-ints and remove the first number (3)
@@ -74,9 +61,25 @@ function processWeather(city, callback){ //callback is to send the message
           if(snow != -1 && snow > 0){ //more than 0" of snow
             return ", snowing";
           }
-          return -1
+          return "";
         };
-        var resp;
+
+        function wind(dat){
+          if(dat.wind == undefined) return;
+          var ws = dat.wind.speed;
+          if(ws >= 30){ //wind cutoffs from beafort scale
+            return " and very very very windy"
+          }else if(ws >= 23){
+            return " and very windy";
+          }else if(ws >= 15){
+            return " and windy";
+          }else if(ws >= 8){
+            return " and slightly windy";
+          }else{
+            return "";
+          }
+        };
+
         callback("It is currently " +
         Math.round(dat.main.temp) + "F (" +
         Math.round((dat.main.temp-32)*(5/9)) + //calc temp in C
