@@ -55,20 +55,11 @@ function processWeather(city, callback){ //callback is to send the message
     });
     db.on('open', function (){
       console.log("Db connected");
-      var Schema = mongoose.Schema;
-      var citySchema = new Schema({
-        "_id": Number,
-        "name": String,
-        "country": String,
-        "coord": {
-            "lon": Number,
-            "lat": Number
-        }
-      });
-      var cityModel = mongoose.model('cityModel', citySchema);
-      cityModel.find({'name': cityUpper}, '_id', function(id){
-        cityCode = id;
-        console.log("id:" + id)
+      var cityModel = require(cityModel);
+
+      cityModel.findOne({'name': cityUpper}, function(cit){
+        cityCode = cit._id;
+        console.log("id:" + cit._id)
       });
     });
     //end mongo code
