@@ -47,6 +47,7 @@ function respond() {
 }
 
 function getCityFromDB(city, callback){
+  console.log("entered getCityFromDB");
   var Schema = mongoose.Schema;
   var citySchema = new Schema({
     "_id": Number,
