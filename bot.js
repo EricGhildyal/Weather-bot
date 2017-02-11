@@ -6,9 +6,6 @@ var botID = process.env.BOT_ID;
 var mongoURI = process.env.MONGODB_URI;
 var defaultCity = 5206379;
 
-mongoose.connect(mongoURI);
-var db = mongoose.connection;
-
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
       botRegex = /^\/weather*/g;
@@ -42,10 +39,13 @@ function respond() {
 
 // api call: http://api.openweathermap.org/data/2.5/weather?id=cityCode&units=imperial&appid=apiKey
 function processWeather(city, callback){ //callback is to send the message
+
   var cityCode = -1;
   if(city == defaultCity){ //handle Pittsburgh default
     cityCode = city;
   }else{
+    mongoose.connect(mongoURI);
+    var db = mongoose.connection;
     var cityUpper = city.substring(0,1).toUpperCase() + city.substring(1); //make sure first letter is capitalized
     console.log("cityUpper: " + cityUpper);
     //mongo code starts here
