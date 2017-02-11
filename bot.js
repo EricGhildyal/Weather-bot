@@ -65,8 +65,8 @@ function processWeather(city, callback){ //callback is to send the message
 
         function rainOrSnow(dat){
           var resp;
-          console.log("dat.rain: " + dat.rain);
-          console.log("dat.snow: " + dat.snow);
+          console.log("dat: " + dat);
+          // console.log("dat.snow: " + dat.snow);
           if(dat.rain[0] >= 0){
             resp += "raining";
           }
