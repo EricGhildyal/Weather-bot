@@ -55,7 +55,7 @@ function processWeather(city, callback){ //callback is to send the message
     });
     db.on('open', function (){
       console.log("Db connected");
-      var cityModel = require(cityModel);
+      var cityModel = require('cityModel.js');
 
       cityModel.findOne({'name': cityUpper}, function(cit){
         cityCode = cit._id;
