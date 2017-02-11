@@ -37,7 +37,6 @@ function respond() {
   }
 }
 
-
 function getCityFromDB(city, callback){
   mongoose.connect(mongoURI);
   var db = mongoose.connection;
