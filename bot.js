@@ -1,7 +1,9 @@
 var HTTPS = require('https');
 var request = require('request');
+var mongoose    = require('mongoose');
 
 var botID = process.env.BOT_ID;
+var mongoURI = process.env.MONGODB_URI;
 var defaultCity = 5206379;
 
 function respond() {
@@ -42,10 +44,35 @@ function processWeather(city, callback){ //callback is to send the message
   if(city == defaultCity){ //handle Pittsburgh default
     cityCode = city;
   }else{
-    var cityUpper = city.substring(0,1).toUpperCase() + city.substring(1);
+    var cityUpper = city.substring(0,1).toUpperCase() + city.substring(1); //make sure first letter is capitalized
     console.log("cityUpper: " + cityUpper);
 
+    mongoose.connect(mongoURI);
+    var db = mongoose.connection;
+    db.on('error', console.log("Connection to DB failed"));
+    console.log("Connected to DB");
+    var Schema = mongoose.Schema;
+
+    var citySchema = new Schema({
+      "_id": Number,
+      "name": String,
+      "country": String,
+      "coord": {
+          "lon": Number,
+          "lat": Number
+      }
+    });
+
+    var cityModel = mongoose.model('cityModel', citySchema);
+
+    cityModel.find({'name': cityUpper}, '_id', function(err, id){
+      if(err) return -1;
+      cityCode = id;
+      console.log("id: id");
+    });
+    mongoose.disconnect();
   }
+  console.log("cityCode: " + cityCode);
 
   if(cityCode != -1){
     getWeather(cityCode, function(dat){
