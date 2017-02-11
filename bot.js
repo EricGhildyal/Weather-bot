@@ -5,8 +5,10 @@ var mongoose = require('mongoose');
 var botID = process.env.BOT_ID;
 var defaultCity = 5206379;
 var db = mongoose.connection;
+var mongoURI = process.env.MONGODB_URI;
 
 function respond() {
+  mongoose.connect(mongoURI);
   var request = JSON.parse(this.req.chunks[0]),
       botRegex = /^\/weather*/g;
 
