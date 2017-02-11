@@ -40,12 +40,11 @@ function respond() {
 // api call: http://api.openweathermap.org/data/2.5/weather?id=cityCode&units=imperial&appid=apiKey
 function processWeather(city, callback){ //callback is to send the message
   var cityCode = -1;
+  var cityUpper = city.substring(0,1).toUpperCase() + city.substring(1); //make sure first letter is capitalized
+  console.log("cityUpper: " + cityUpper);
   if(city == defaultCity){ //handle Pittsburgh default
     cityCode = city;
   }else{
-    var cityUpper = city.substring(0,1).toUpperCase() + city.substring(1); //make sure first letter is capitalized
-    console.log("cityUpper: " + cityUpper);
-
     //mongo code starts here
     mongoose.connect(mongoURI);
     var db = mongoose.connection;
@@ -123,7 +122,7 @@ function processWeather(city, callback){ //callback is to send the message
       }
     });
   }else{
-    callback("I don't know what " + city + " is..."); //default response
+    callback("I don't know what " + cityUpper + " is..."); //default response
   }
 }
 
