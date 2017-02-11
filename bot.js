@@ -67,7 +67,7 @@ function processWeather(city, callback){ //callback is to send the message
           var resp = "";
 
           //turn JSON into string, strip all non-ints and remove the first number (3)
-          var rain = (dat.rain ==[] undefined) ? -1 : JSON.stringify(dat.rain).replace(/[\D.]/g, '').substring(1);
+          var rain = (dat.rain == undefined) ? -1 : JSON.stringify(dat.rain).replace(/[\D.]/g, '').substring(1);
           var snow = (dat.snow == undefined) ? -1 : JSON.stringify(dat.snow).replace(/[\D.]/g, '').substring(1);
 
           if(rain != -1 && rain >= 0.5){
