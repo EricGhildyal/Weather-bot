@@ -46,7 +46,7 @@ function respond() {
   }
 }
 
-getCityFromDB(city, callback){
+function getCityFromDB(city, callback){
   var Schema = mongoose.Schema;
   var citySchema = new Schema({
     "_id": Number,
