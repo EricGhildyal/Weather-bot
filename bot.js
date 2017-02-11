@@ -40,7 +40,7 @@ function respond() {
 function processWeather(city, callback){ //callback is to send the message
   var cityCode = -1;
   city = 2643743; //TODO: get rid of this
-  if(city == defaultCity){ //handle Pittsburgh default
+  if(city == 2643743){ //handle Pittsburgh default
     cityCode = city;
   }else{
     //check for city code in file
