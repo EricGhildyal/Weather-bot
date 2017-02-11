@@ -84,7 +84,6 @@ function processWeather(city, callback){ //callback is to send the message
         return id;
 
       });
-    });
     mongoose.disconnect();
     //end mongo code
   }
