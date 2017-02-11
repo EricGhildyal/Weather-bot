@@ -3,7 +3,8 @@ var http, director, bot, router, server, port;
 http        = require('http');
 director    = require('director');
 bot         = require('./bot.js');
-
+mongoose    = require('mongoose');
+mongoose.connect(mongoURI);
 
 router = new director.http.Router({
   '/' : {
@@ -11,8 +12,6 @@ router = new director.http.Router({
     get: ping
   }
 });
-
-
 
 server = http.createServer(function (req, res) {
   req.chunks = [];

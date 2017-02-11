@@ -1,6 +1,5 @@
 var HTTPS = require('https');
 var request = require('request');
-var mongoose    = require('mongoose');
 
 var botID = process.env.BOT_ID;
 var mongoURI = process.env.MONGODB_URI;
@@ -11,7 +10,6 @@ function respond() {
   var request = JSON.parse(this.req.chunks[0]),
       botRegex = /^\/weather*/g;
 
-  mongoose.connect(mongoURI);
   db = mongoose.connection;
   mongoose.Promise = global.Promise;
 
