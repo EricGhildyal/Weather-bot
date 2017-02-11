@@ -4,6 +4,7 @@ http        = require('http');
 director    = require('director');
 bot         = require('./bot.js');
 mongoose    = require('mongoose');
+var mongoURI = process.env.MONGODB_URI;
 mongoose.connect(mongoURI);
 
 router = new director.http.Router({

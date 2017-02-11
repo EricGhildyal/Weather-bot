@@ -2,7 +2,6 @@ var HTTPS = require('https');
 var request = require('request');
 
 var botID = process.env.BOT_ID;
-var mongoURI = process.env.MONGODB_URI;
 var defaultCity = 5206379;
 var db;
 
