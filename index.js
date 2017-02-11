@@ -4,6 +4,18 @@ http        = require('http');
 director    = require('director');
 bot         = require('./bot.js');
 
+var mongoose = require('mongoose');
+var mongoURI = process.env.MONGODB_URI;
+
+mongoose.connect(mongoURI);
+var db = mongoose.connection;
+db.on('error', function(err){
+  console.log("Connection to DB failed " + err);
+});
+db.on('open', function (){
+  console.log("Db connected");
+});
+mongoose.disconnect();
 
 router = new director.http.Router({
   '/' : {

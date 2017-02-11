@@ -4,17 +4,18 @@ var mongoose = require('mongoose');
 
 var botID = process.env.BOT_ID;
 var defaultCity = 5206379;
-var db = mongoose.connection;
-var mongoURI = process.env.MONGODB_URI;
+// var db = mongoose.connection;
+// var mongoURI = process.env.MONGODB_URI;
 
 function respond() {
-  mongoose.connect(mongoURI);
-  db.on('error', function(err){
-    console.log("Connection to DB failed " + err);
-  });
-  db.on('open', function (){
-    console.log("Db connected");
-  });
+  // mongoose.connect(mongoURI);
+  // db.on('error', function(err){
+  //   console.log("Connection to DB failed " + err);
+  // });
+  // db.on('open', function (){
+  //   console.log("Db connected");
+  // });
+  // mongoose.disconnect();
   var request = JSON.parse(this.req.chunks[0]),
       botRegex = /^\/weather*/g;
 
@@ -37,7 +38,6 @@ function respond() {
     processWeather(city, function(response){ //all other cities, process
       postMessage(response);
     });
-    mongoose.disconnect();
     this.res.end();
   } else {
     console.log("don't care");
@@ -55,6 +55,7 @@ function processWeather(city, callback){ //callback is to send the message
   }else{
     var cityUpper = city.substring(0,1).toUpperCase() + city.substring(1); //make sure first letter is capitalized
     console.log("cityUpper: " + cityUpper);
+
     var Schema = mongoose.Schema;
     var citySchema = new Schema({
       "_id": Number,
@@ -67,10 +68,9 @@ function processWeather(city, callback){ //callback is to send the message
     });
     var cityModel = mongoose.model('cityModel', citySchema);
 
-    cityModel.findOne({'name': cityUpper}).exec()
-    .then(function(cit){
+    cityModel.findOne({'name': cityUpper} function(cit){
       cityCode = cit._id;
-      console.log("id:" + cit._id)
+      console.log("id:" + cit._id);
     });
   }
 
