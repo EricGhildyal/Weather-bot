@@ -67,8 +67,7 @@ function processWeather(city, callback){ //callback is to send the message
           var resp = "";
 
           function getVal(key, value){
-            console.log(key + " " + value);
-            if(value == '3h'){
+            if(key == "3h"){
               return value;
             }
           }
