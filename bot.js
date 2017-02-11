@@ -43,7 +43,7 @@ function processWeather(city, callback){ //callback is to send the message
   if(city == defaultCity){ //handle Pittsburgh default
     cityCode = city;
   }else{
-    //check for city code in db
+    if(city.)
   }
 
   if(cityCode != -1){

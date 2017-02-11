@@ -1,10 +1,9 @@
-var http, director, bot, router, server, port;
+var http, director, bot, router, server, port, mongodb;
 
 http        = require('http');
 director    = require('director');
 bot         = require('./bot.js');
-var mongodb = require("mongodb");
-var ObjectID = mongodb.ObjectID;
+mongodb     = require('mongodb');
 
 router = new director.http.Router({
   '/' : {
