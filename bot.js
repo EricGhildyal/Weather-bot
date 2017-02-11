@@ -37,24 +37,15 @@ function respond() {
   }
 }
 
-// api call: http://api.openweathermap.org/data/2.5/weather?id=cityCode&units=imperial&appid=apiKey
-function processWeather(city, callback){ //callback is to send the message
-  var cityCode = -1;
-  if(city == defaultCity){ //handle Pittsburgh default
-    cityCode = city;
-  }else{
-    var cityUpper = city.substring(0,1).toUpperCase() + city.substring(1); //make sure first letter is capitalized
-    console.log("cityUpper: " + cityUpper);
+function getCityFromDB(city, callback){
+  mongoose.connect(mongoURI);
+  var db = mongoose.connection;
+  db.on('error', function(err){
+    console.log("Connection to DB failed " + err);
+  });
 
-    mongoose.connect(mongoURI);
-    var db = mongoose.connection;
-    db.on('error', function(err){
-      console.log("Connection to DB failed " + err);
-    });
-
-    db.on('open', function () { //maybe connected
-      console.log("Db connected");
-    });
+  db.on('open', function () { //maybe connected
+    console.log("Db connected");
     var Schema = mongoose.Schema;
 
     var citySchema = new Schema({
@@ -72,60 +63,73 @@ function processWeather(city, callback){ //callback is to send the message
     cityModel.find({'name': cityUpper}, '_id', function(err, id){
       if(err){
         console.log(err);
-        return -1;
+        callback(-1);
       }
-      cityCode = id;
       console.log("id:" + id);
+      callback(id);
     });
     mongoose.disconnect();
-  }
-  console.log("cityCode: " + cityCode);
+  });
+}
 
-  if(cityCode != -1){
-    getWeather(cityCode, function(dat){
-      if(dat != undefined){
-        //get human readable version of rain or snow
-        function rainOrSnow(dat){
-          //turn JSON into string, strip all non-ints and remove the first number (3)
-          var rain = (dat.rain == undefined) ? -1 : JSON.stringify(dat.rain).replace(/[\D.]/g, '').substring(1);
-          var snow = (dat.snow == undefined) ? -1 : JSON.stringify(dat.snow).replace(/[\D.]/g, '').substring(1);
+// api call: http://api.openweathermap.org/data/2.5/weather?id=cityCode&units=imperial&appid=apiKey
+function processWeather(city, callback){ //callback is to send the message
+  var cityCode = -1;
+  if(city == defaultCity){ //handle Pittsburgh default
+    cityCode = city;
+  }else{
+    var cityUpper = city.substring(0,1).toUpperCase() + city.substring(1); //make sure first letter is capitalized
+    console.log("cityUpper: " + cityUpper);
+    getCityFromDB(cityUpper, function(resp){
+      console.log("cityCode: " + resp);
+      cityCode = resp;
+      if(cityCode != -1){
+        getWeather(cityCode, function(dat){
+          if(dat != undefined){
+            //get human readable version of rain or snow
+            function rainOrSnow(dat){
+              //turn JSON into string, strip all non-ints and remove the first number (3)
+              var rain = (dat.rain == undefined) ? -1 : JSON.stringify(dat.rain).replace(/[\D.]/g, '').substring(1);
+              var snow = (dat.snow == undefined) ? -1 : JSON.stringify(dat.snow).replace(/[\D.]/g, '').substring(1);
 
-          if(rain != -1 && rain >= 0.5){ //more than .5" of rain
-            return ", raining";
-          }
-          if(snow != -1 && snow > 0){ //more than 0" of snow
-            return ", snowing";
-          }
-          return "";
-        };
+              if(rain != -1 && rain >= 0.5){ //more than .5" of rain
+                return ", raining";
+              }
+              if(snow != -1 && snow > 0){ //more than 0" of snow
+                return ", snowing";
+              }
+              return "";
+            };
 
-        //get a human readable version of the windspeed
-        function wind(dat){
-          if(dat.wind == undefined) return;
-          var ws = dat.wind.speed;
-          if(ws >= 30){ //wind cutoffs from beafort scale
-            return " and very very very windy"
-          }else if(ws >= 23){
-            return " and very windy";
-          }else if(ws >= 15){
-            return " and windy";
-          }else if(ws >= 8){
-            return " and slightly windy";
+            //get a human readable version of the windspeed
+            function wind(dat){
+              if(dat.wind == undefined) return;
+              var ws = dat.wind.speed;
+              if(ws >= 30){ //wind cutoffs from beafort scale
+                return " and very very very windy"
+              }else if(ws >= 23){
+                return " and very windy";
+              }else if(ws >= 15){
+                return " and windy";
+              }else if(ws >= 8){
+                return " and slightly windy";
+              }else{
+                return "";
+              }
+            };
+
+            callback("It is currently " +
+            Math.round(dat.main.temp) + "F (" +
+            Math.round((dat.main.temp-32)*(5/9)) + //calc temp in C
+            "C)" + rainOrSnow(dat) + wind(dat) + " in " + dat.name);
           }else{
-            return "";
+            callback("Nothing Found :(");
           }
-        };
-
-        callback("It is currently " +
-        Math.round(dat.main.temp) + "F (" +
-        Math.round((dat.main.temp-32)*(5/9)) + //calc temp in C
-        "C)" + rainOrSnow(dat) + wind(dat) + " in " + dat.name);
+        });
       }else{
-        callback("Nothing Found :(");
+        callback("I don't know what " + city + " is..."); //default response
       }
     });
-  }else{
-    callback("I don't know what " + city + " is..."); //default response
   }
 }
  //function to call openwaethermap API, callback to processWeather
