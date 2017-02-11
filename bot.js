@@ -65,13 +65,10 @@ function processWeather(city, callback){ //callback is to send the message
         }
       });
       var cityModel = mongoose.model('cityModel', citySchema);
-      var promise = cityModel.find({'name': cityUpper}, '_id').exec();
-      promise.then(function(id){
+      cityModel.find({'name': cityUpper}, '_id', function(id){
         cityCode = id;
-      })
-      .catch(function(err){
-        console.log(err);
-      })
+        console.log("id:" + id)
+      });
     });
     //end mongo code
   }
