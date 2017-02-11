@@ -5,7 +5,6 @@ var mongoose = require('mongoose');
 var botID = process.env.BOT_ID;
 var defaultCity = 5206379;
 var db = mongoose.connection;
-mongoose.Promise = global.Promise;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
@@ -117,7 +116,7 @@ function processWeather(city, callback){ //callback is to send the message
       }
     });
   }else{
-    callback("I don't know what " + city + " is..."); //default response
+    callback("I don't know where " + city + " is..."); //default response
   }
 }
 
