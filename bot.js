@@ -78,6 +78,7 @@ function processWeather(city, callback){ //callback is to send the message
         // Math.round(dat.main.temp) + "F (" +
         // Math.round((dat.main.temp-32)*(5/9)) + //calc temp in C
         // "C), "+ rainOrSnow + wind + "in " + dat.name);
+        console.log(dat.weather);
         callback("It is currently " +
         Math.round(dat.main.temp) + "F (" +
         Math.round((dat.main.temp-32)*(5/9)) + //calc temp in C
