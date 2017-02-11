@@ -67,7 +67,7 @@ function processWeather(city, callback){ //callback is to send the message
       }
     });
     var cityModel = mongoose.model('cityModel', citySchema);
-
+    console.log("finding...");
     cityModel.findOne({'name': cityUpper}, function(cit){
       cityCode = cit._id;
       console.log("id:" + cit._id);
