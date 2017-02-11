@@ -66,10 +66,7 @@ function processWeather(city, callback){ //callback is to send the message
         function rainOrSnow(dat){
           var resp = "";
 
-          var tmp = JSON.parse(dat.rain, function(key, value){
-            console.log(key + " " + value);
-            return value;
-          });
+          var tmp = JSON.parse(dat.rain);
 
           console.log("tmp " + tmp);
           // console.log(dat.snow[0]);
