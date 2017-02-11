@@ -64,25 +64,23 @@ function processWeather(city, callback){ //callback is to send the message
         };
 
         function rainOrSnow(dat){
-          var resp = "";
-
           //turn JSON into string, strip all non-ints and remove the first number (3)
           var rain = (dat.rain == undefined) ? -1 : JSON.stringify(dat.rain).replace(/[\D.]/g, '').substring(1);
           var snow = (dat.snow == undefined) ? -1 : JSON.stringify(dat.snow).replace(/[\D.]/g, '').substring(1);
 
-          if(rain != -1 && rain >= 0.5){
-            resp += "raining and";
+          if(rain != -1 && rain >= 0.5){ //.5" of rain
+            return "raining";
           }
-          if(snow != -1 && snow >= 0.5){
-            resp += "snowing and";
+          if(snow != -1 && snow > 0){ //0" of snow
+            return "snowing";
           }
-          return resp;
+          return -1
         };
-
+        var resp;
         callback("It is currently " +
         Math.round(dat.main.temp) + "F (" +
         Math.round((dat.main.temp-32)*(5/9)) + //calc temp in C
-        "C), "+ rainOrSnow(dat) + " " + wind(dat) + " in " + dat.name);
+        "C), "+ (rainOrSnow(dat) == -1) ? rainOrSnow(dat) + " and " : " " + wind(dat) + " in " + dat.name);
       }else{
         callback("Nothing Found :(");
       }
