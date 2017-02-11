@@ -92,6 +92,7 @@ function processWeather(city, callback){ //callback is to send the message
  //function to call openwaethermap API, callback to processWeather
 function getWeather(cityCode, callback){
   var url = "http://api.openweathermap.org/data/2.5/weather?id=" + cityCode + "&units=imperial&appid=aa18b5edfa68b9272ef1cd13f4602abe";
+  console.log(url);
   request({
   url: url,
   json: true
