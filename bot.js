@@ -43,13 +43,13 @@ function processWeather(city, callback){ //callback is to send the message
   if(city == defaultCity){ //handle Pittsburgh default
     cityCode = city;
   }else{
-    //check for city code in file
+    //check for city code in db
   }
 
   if(cityCode != -1){
     getWeather(cityCode, function(dat){
       if(dat != undefined){
-
+        //get human readable version of rain or snow
         function rainOrSnow(dat){
           //turn JSON into string, strip all non-ints and remove the first number (3)
           var rain = (dat.rain == undefined) ? -1 : JSON.stringify(dat.rain).replace(/[\D.]/g, '').substring(1);
@@ -64,6 +64,7 @@ function processWeather(city, callback){ //callback is to send the message
           return "";
         };
 
+        //get a human readable version of the windspeed
         function wind(dat){
           if(dat.wind == undefined) return;
           var ws = dat.wind.speed;
