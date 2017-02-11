@@ -5,10 +5,14 @@ var mongoose    = require('mongoose');
 var botID = process.env.BOT_ID;
 var mongoURI = process.env.MONGODB_URI;
 var defaultCity = 5206379;
+var db;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
       botRegex = /^\/weather*/g;
+
+  mongoose.connect(mongoURI);
+  var db = mongoose.connection;
 
   if(request.text && botRegex.test(request.text)) {
     var input = request.text.replace(/\/weather/g, ' '); //strip "/weather "
@@ -44,8 +48,6 @@ function processWeather(city, callback){ //callback is to send the message
   if(city == defaultCity){ //handle Pittsburgh default
     cityCode = city;
   }else{
-    mongoose.connect(mongoURI);
-    var db = mongoose.connection;
     var cityUpper = city.substring(0,1).toUpperCase() + city.substring(1); //make sure first letter is capitalized
     console.log("cityUpper: " + cityUpper);
     //mongo code starts here
