@@ -39,8 +39,8 @@ function respond() {
 // api call: http://api.openweathermap.org/data/2.5/weather?id=cityCode&units=imperial&appid=apiKey
 function processWeather(city, callback){ //callback is to send the message
   var cityCode = -1;
-  city = 4835797; //TODO: get rid of this
-  if(city == 4835797){ //handle Pittsburgh default
+  city = 5368361; //TODO: get rid of this
+  if(city == 5368361){ //handle Pittsburgh default
     cityCode = city;
   }else{
     //check for city code in file
@@ -50,6 +50,7 @@ function processWeather(city, callback){ //callback is to send the message
     getWeather(cityCode, function(dat){
       if(dat != undefined){
         function wind(dat){
+          if(dat.wind == undefined) return;
           var ws = dat.wind.speed;
           if(ws <= 12){ //wind cutoffs from beafort scale
             return "slightly windy";
@@ -61,21 +62,17 @@ function processWeather(city, callback){ //callback is to send the message
             return "very very very windy";
           }
         };
-        console.log("wind " + wind(dat));
 
         function rainOrSnow(dat){
-          var resp;
-          console.log("dat: " + dat);
-          // console.log("dat.snow: " + dat.snow);
-          if(dat.rain[0] >= 0){
-            resp += "raining";
+          var resp = "";
+          if(dat.rain != undefined && dat.rain[0] >= 0){
+            resp += "raining and";
           }
-          if(dat.snow[0] >= 0){
-            resp += "snowing";
+          if(dat.snow != undefined && dat.snow[0] >= 0){
+            resp += "snowing and";
           }
-          return resp + " and";
+          return resp;
         };
-        console.log("precip: " + rainOrSnow(dat));
 
         callback("It is currently " +
         Math.round(dat.main.temp) + "F (" +
