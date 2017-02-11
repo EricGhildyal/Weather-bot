@@ -48,7 +48,9 @@ function processWeather(city, callback){ //callback is to send the message
 
     mongoose.connect(mongoURI);
     var db = mongoose.connection;
-    db.on('error', console.log("Connection to DB failed"));
+    db.on('error', function(err){
+      console.log("Connection to DB failed " + err);
+    });
     db.on('open', function () { //maybe connected
       console.log("Db connected");
     });
