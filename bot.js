@@ -22,7 +22,6 @@ function respond() {
     }
 
     if(city == ""){ //if no city given, default to PGH
-      console.log("Defaulted to PGH!!!!");
       city = defaultCity;
     }
 
