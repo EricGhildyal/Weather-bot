@@ -37,6 +37,7 @@ function respond() {
   }
 }
 
+<<<<<<< HEAD
 function getCityFromDB(city, callback){
   mongoose.connect(mongoURI);
   var db = mongoose.connection;
@@ -46,6 +47,25 @@ function getCityFromDB(city, callback){
 
   db.on('open', function () { //maybe connected
     console.log("Db connected");
+=======
+// api call: http://api.openweathermap.org/data/2.5/weather?id=cityCode&units=imperial&appid=apiKey
+function processWeather(city, callback){ //callback is to send the message
+  var cityCode = -1;
+  if(city == defaultCity){ //handle Pittsburgh default
+    cityCode = city;
+  }else{
+    var cityUpper = city.substring(0,1).toUpperCase() + city.substring(1); //make sure first letter is capitalized
+    console.log("cityUpper: " + cityUpper);
+
+    mongoose.connect(mongoURI);
+    var db = mongoose.connection;
+    db.on('error', function(err){
+      console.log("Connection to DB failed " + err);
+    });
+    db.on('open', function () { //maybe connected
+      console.log("Db connected");
+    });
+>>>>>>> parent of eb7769d... db search isn't going well
     var Schema = mongoose.Schema;
 
     var citySchema = new Schema({
@@ -60,6 +80,7 @@ function getCityFromDB(city, callback){
 
     var cityModel = mongoose.model('cityModel', citySchema);
 
+<<<<<<< HEAD
     cityModel.find({'name': city}, '_id', function(err, id){
       if(err){
         console.log(err);
@@ -67,6 +88,12 @@ function getCityFromDB(city, callback){
       }
       console.log("id:" + id);
       callback(id);
+=======
+    cityModel.find({'name': cityUpper}, '_id', function(err, id){
+      if(err) return -1;
+      cityCode = id;
+      console.log("id: id");
+>>>>>>> parent of eb7769d... db search isn't going well
     });
     mongoose.disconnect();
   });
