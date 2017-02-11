@@ -60,7 +60,7 @@ function getCityFromDB(city, callback){
 
     var cityModel = mongoose.model('cityModel', citySchema);
 
-    cityModel.find({'name': cityUpper}, '_id', function(err, id){
+    cityModel.find({'name': city}, '_id', function(err, id){
       if(err){
         console.log(err);
         callback(-1);
