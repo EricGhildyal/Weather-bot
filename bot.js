@@ -53,13 +53,13 @@ function processWeather(city, callback){ //callback is to send the message
           if(dat.wind == undefined) return;
           var ws = dat.wind.speed;
           if(ws <= 12){ //wind cutoffs from beafort scale
-            return "slightly windy";
-          }else if(ws <= 24){
-            return "windy";
-          }else if(ws <= 30){
-            return "very windy";
+            return "and slightly windy";
+          }else if(ws <= 19){
+            return "and windy";
+          }else if(ws <= 25){
+            return "and very windy";
           }else{
-            return "very very very windy";
+            return "and very very very windy";
           }
         };
 
@@ -68,11 +68,11 @@ function processWeather(city, callback){ //callback is to send the message
           var rain = (dat.rain == undefined) ? -1 : JSON.stringify(dat.rain).replace(/[\D.]/g, '').substring(1);
           var snow = (dat.snow == undefined) ? -1 : JSON.stringify(dat.snow).replace(/[\D.]/g, '').substring(1);
 
-          if(rain != -1 && rain >= 0.5){ //.5" of rain
-            return "raining";
+          if(rain != -1 && rain >= 0.5){ //more than .5" of rain
+            return ", raining";
           }
-          if(snow != -1 && snow > 0){ //0" of snow
-            return "snowing";
+          if(snow != -1 && snow > 0){ //more than 0" of snow
+            return ", snowing";
           }
           return -1
         };
@@ -80,7 +80,7 @@ function processWeather(city, callback){ //callback is to send the message
         callback("It is currently " +
         Math.round(dat.main.temp) + "F (" +
         Math.round((dat.main.temp-32)*(5/9)) + //calc temp in C
-        "C), "+ (rainOrSnow(dat) == -1) ? rainOrSnow(dat) + " and " : " " + wind(dat) + " in " + dat.name);
+        "C)" + rainOrSnow(dat) + wind(dat) + " in " + dat.name);
       }else{
         callback("Nothing Found :(");
       }
