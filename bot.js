@@ -49,40 +49,34 @@ function processWeather(city, callback){ //callback is to send the message
   if(cityCode != -1){
     getWeather(cityCode, function(dat){
       if(dat != undefined){
+        var wind = function(dat){
+          var ws = dat.wind.speed;
+          if(ws <= 12){ //wind cutoffs from beafort scale
+            return "slightly windy";
+          }else if(ws <= 24){
+            return "windy";
+          }else if(ws <= 30){
+            return "very windy";
+          }else{
+            return "very very very windy";
+          }
+        };
 
-        // var wind = function(dat){
-        //   var ws = dat.wind.speed;
-        //   if(ws <= 12){ //wind cutoffs from beafort scale
-        //     return "slightly windy";
-        //   }else if(ws <= 24){
-        //     return "windy";
-        //   }else if(ws <= 30){
-        //     return "very windy";
-        //   }else{
-        //     return "very very very windy";
-        //   }
-        // };
-        //
-        // var rainOrSnow = function(dat){
-        //   var resp;
-        //   if((dat.rain.3h) >= 0){
-        //     resp += "raining"
-        //   }
-        //   if(dat.snow.3h >= 0){
-        //     resp += "snowing"
-        //   }
-        //   return resp + " and";
-        // };
+        var rainOrSnow = function(dat){
+          var resp;
+          if(dat.rain."3h" >= 0){
+            resp += "raining"
+          }
+          if(dat.snow."3h" >= 0){
+            resp += "snowing"
+          }
+          return resp + " and";
+        };
 
-        // callback("It is currently " +
-        // Math.round(dat.main.temp) + "F (" +
-        // Math.round((dat.main.temp-32)*(5/9)) + //calc temp in C
-        // "C), "+ rainOrSnow + wind + "in " + dat.name);
-        console.log(dat.weather);
         callback("It is currently " +
         Math.round(dat.main.temp) + "F (" +
         Math.round((dat.main.temp-32)*(5/9)) + //calc temp in C
-        "C), " + dat.weather.description);
+        "C), "+ rainOrSnow + wind + "in " + dat.name);
       }else{
         callback("Nothing Found :(");
       }
@@ -98,7 +92,6 @@ function getWeather(cityCode, callback){
   url: url,
   json: true
   }, function (error, response, body) {
-    console.log(url);
     if (!error) {
       callback(body); //send full JSON back
     }else{
