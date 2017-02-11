@@ -6,6 +6,9 @@ var botID = process.env.BOT_ID;
 var mongoURI = process.env.MONGODB_URI;
 var defaultCity = 5206379;
 
+mongoose.connect(mongoURI);
+var db = mongoose.connection;
+
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
       botRegex = /^\/weather*/g;
@@ -46,8 +49,6 @@ function processWeather(city, callback){ //callback is to send the message
     var cityUpper = city.substring(0,1).toUpperCase() + city.substring(1); //make sure first letter is capitalized
     console.log("cityUpper: " + cityUpper);
     //mongo code starts here
-    mongoose.connect(mongoURI);
-    var db = mongoose.connection;
     db.on('error', function(err){
       console.log("Connection to DB failed " + err);
     });
@@ -71,9 +72,7 @@ function processWeather(city, callback){ //callback is to send the message
         }
         console.log("id:" + id);
         return id;
-
       });
-      mongoose.disconnect();
     });
     //end mongo code
   }
