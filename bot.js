@@ -65,6 +65,9 @@ function processWeather(city, callback){ //callback is to send the message
 
         function rainOrSnow(dat){
           var resp = "";
+
+          console.log(dat.rain);
+          console.log(dat.snow);
           if(dat.rain != undefined && dat.rain[0] >= 0){
             resp += "raining and";
           }
@@ -77,7 +80,7 @@ function processWeather(city, callback){ //callback is to send the message
         callback("It is currently " +
         Math.round(dat.main.temp) + "F (" +
         Math.round((dat.main.temp-32)*(5/9)) + //calc temp in C
-        "C), "+ rainOrSnow(dat) + wind(dat) + "in " + dat.name);
+        "C), "+ rainOrSnow(dat) + " and " + wind(dat) + "in " + dat.name);
       }else{
         callback("Nothing Found :(");
       }
