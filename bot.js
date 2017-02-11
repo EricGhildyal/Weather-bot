@@ -46,31 +46,36 @@ function respond() {
   }
 }
 
+getCityFromDB(city, callback){
+  var Schema = mongoose.Schema;
+  var citySchema = new Schema({
+    "_id": Number,
+    "name": String,
+    "country": String,
+    "coord": {
+        "lon": Number,
+        "lat": Number
+    }
+  });
+  var cityModel = mongoose.model('cityModel', citySchema);
+  cityModel.findOne({'name': city}, function(cit){
+    console.log("cit " + cit._id);
+    callback(cit._id);
+  });
+}
+
 // api call: http://api.openweathermap.org/data/2.5/weather?id=cityCode&units=imperial&appid=apiKey
 function processWeather(city, callback){ //callback is to send the message
-
   var cityCode = -1;
   if(city == defaultCity){ //handle Pittsburgh default
     cityCode = city;
   }else{
     var cityUpper = city.substring(0,1).toUpperCase() + city.substring(1); //make sure first letter is capitalized
     console.log("cityUpper: " + cityUpper);
-
-    var Schema = mongoose.Schema;
-    var citySchema = new Schema({
-      "_id": Number,
-      "name": String,
-      "country": String,
-      "coord": {
-          "lon": Number,
-          "lat": Number
-      }
-    });
-    var cityModel = mongoose.model('cityModel', citySchema);
-    cityModel.findOne({'name': cityUpper}, function(cit){
-      // cityCode = cit._id;
-      console.log("cit " + cit);
-    });
+    getCityFromDB(cityUpper, function(resp){
+      console.log("resp: " + resp);
+      cityCode = resp;
+    })
   }
 
   if(cityCode != -1){
