@@ -15,7 +15,6 @@ db.on('error', function(err){
 db.on('open', function (){
   console.log("Db connected");
 });
-mongoose.disconnect();
 
 router = new director.http.Router({
   '/' : {
@@ -39,6 +38,7 @@ server = http.createServer(function (req, res) {
 port = Number(process.env.PORT || 5000);
 server.listen(port);
 
+mongoose.disconnect();
 
 function ping() {
   this.res.writeHead(200);
