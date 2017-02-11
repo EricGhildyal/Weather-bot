@@ -13,6 +13,7 @@ function respond() {
 
   mongoose.connect(mongoURI);
   db = mongoose.connection;
+  mongoose.Promise = global.Promise;
 
   if(request.text && botRegex.test(request.text)) {
     var input = request.text.replace(/\/weather/g, ' '); //strip "/weather "
@@ -68,14 +69,13 @@ function processWeather(city, callback){ //callback is to send the message
         }
       });
       var cityModel = mongoose.model('cityModel', citySchema);
-      cityModel.find({'name': cityUpper}, '_id', function(err, id){
-        if(err){
-          console.log(err);
-          return -1;
-        }
-        console.log("id:" + id);
-        return id;
-      });
+      var promise = cityModel.find({'name': cityUpper}, '_id').exec();
+      promise.then(function(id){
+        cityCode = id;
+      })
+      .catch(function(err){
+        console.log(err);
+      })
     });
     //end mongo code
   }
