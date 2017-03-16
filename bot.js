@@ -12,7 +12,7 @@ function respond() {
     this.res.writeHead(200);
     input = input.replace(/^ */g, ""); //remove weird whitespace being added
     input = input.toLowerCase();
-    inputs = input.split(',');
+    inputs = input.split(/,?\s+/); //split by comma or space
     console.log("inputs: " + inputs);
     var city = "";
     var stateOrCountry = ""
@@ -50,7 +50,6 @@ function respond() {
 function processWeather(city, stateOrCountry, callback){ //callback is to send the message
   getWeather(city, stateOrCountry, function(dat){
     if(dat != undefined){
-      console.log(dat);
       var wind = (function(dat){
         if(dat.wind_mph == undefined) return;
         var ws = dat.wind_mph;
