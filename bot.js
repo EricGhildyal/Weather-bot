@@ -50,8 +50,8 @@ function respond() {
 function processWeather(city, stateOrCountry, callback){ //callback is to send the message
   getWeather(city, stateOrCountry, function(dat){
     if(dat != undefined){
+      console.log(dat);
       var wind = (function(dat){
-        console.log(dat);
         if(dat.wind_mph == undefined) return;
         var ws = dat.wind_mph;
         if(ws >= 30){ //wind cutoffs from beafort scale
@@ -65,7 +65,7 @@ function processWeather(city, stateOrCountry, callback){ //callback is to send t
         }else{
           return;
         }
-      })();
+      })(dat); //pass var into method
       callback("It is currently "+ dat.weather + ", " + dat.temperature_string + wind +  " in " + dat.display_location.full);
     }else{
       callback("Nothing Found :(");
