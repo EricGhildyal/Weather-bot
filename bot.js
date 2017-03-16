@@ -10,7 +10,7 @@ function respond() {
   if(request.text && botRegex.test(request.text)) {
     var input = request.text.replace(botRegex, ""); //strip "/weather "
     this.res.writeHead(200);
-    input = input.toLowerCase().replace(/\//g, ""); //remove slashes
+    input = input.toLowerCase().replace(/(^\s*)(\/)/g, ""); //remove slashes and whitespace
     inputs = input.split(/,?\s+/); //split by comma or space
     console.log(inputs.toString() + " " + inputs.length);
     var first = inputs[0]; //always pull the first one
