@@ -17,6 +17,7 @@ function respond() {
     var city = "-1";
     var stateOrCountry = "-1";
     var type = "-1"; //2 day, etc.
+
     if(first == "help"){ //first thing to check
       postMessage("Default city is Pittsburgh \n Use /weather [City] [State/Country] for other cities \n More features to come! (Weather API from weatherunderground)");
       return;
@@ -27,7 +28,7 @@ function respond() {
       return;
     }
 
-    if(inputs.length == 0){ //no input, default to PGH
+    if(inputs.length == 1){ //no input, default to PGH
       city = "pittsburgh";
       stateOrCountry = "pa";
     }
