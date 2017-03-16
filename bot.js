@@ -1,6 +1,5 @@
 var HTTPS = require('https');
 var request = require('request');
-var mongoose = require('mongoose');
 
 var botID = process.env.BOT_ID;
 
@@ -52,9 +51,10 @@ function getWeather(city, opts, callback){
   var url = "http://api.wunderground.com/api/bd26b1ab06a06eae/conditions/q/pa/pittsburgh";
   var end = ".json"; //default ending for all queries
   var url = url + end; //append ending
-  console.log(url);
+  console.log("url:" + url);
   request({
   url: url,
+  method: 'GET',
   json: true
   }, function (error, response, body) {
     if (!error) {
