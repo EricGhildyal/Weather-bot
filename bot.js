@@ -41,7 +41,7 @@ function processWeather(city, callback){ //callback is to send the message
   var cityUpper = city.substring(0,1).toUpperCase() + city.substring(1); //make sure first letter is capitalized
   getWeather(cityCode, function(dat){
     if(dat != undefined){
-      callback("It is currently " dat.temperature_string + " in " + dat.display_location.full);
+      callback("It is currently " + " in " + dat.display_location.full);
     }else{
       callback("Nothing Found :(");
     }
