@@ -11,20 +11,30 @@ function respond() {
     var input = request.text.replace(/\/weather/g, ' '); //strip "/weather "
     this.res.writeHead(200);
     input = input.replace(/^ */g, ""); //remove weird whitespace being added
-
-    city = input;
+    input = input.toLowerCase();
+    input = input.split(,);
+    console.log("input: " + input);
+    var city = "";
+    var stateOrCountry = ""
+    if(input.length < 2 && input.length != 0){
+      postMessage("Please enter [City], [State/Country]");
+      return;
+    }else{
+      city = input[0];
+      if(input.length > 1) stateOrCountry = input[1];
+    }
 
     if(city == "help"){ //first thing to check
       postMessage("Default city is Pittsburgh \n Use /weather [city] for other cities \n More features to come! (Weather API from weatherunderground)");
-      return; //end the response early
+      return;
     }
 
     if(city == ""){ //if no city given, default to PGH
       city = "pittsburgh";
-      stateCountry = "pa"
+      stateOrCountry = "pa"
     }
 
-    processWeather(city, function(response){ //all other cities, process
+    processWeather(city, stateOrCountry, function(response){ //all other cities, process
       postMessage(response);
     });
     this.res.end();
@@ -35,11 +45,10 @@ function respond() {
   }
 }
 
-function processWeather(city, callback){ //callback is to send the message
-  getWeather(city, function(dat){
+function processWeather(city, stateOrCountry, callback){ //callback is to send the message
+  getWeather(city, stateOrCountry, function(dat){
     if(dat != undefined){
       var wind = (function(dat){
-        console.log(dat);
         if(dat.current_observation.wind_mph == undefined) return;
         var ws = dat.current_observation.wind_mph;
         if(ws >= 30){ //wind cutoffs from beafort scale
@@ -54,7 +63,6 @@ function processWeather(city, callback){ //callback is to send the message
           return;
         }
       })();
-      var snowRain
       callback("It is currently "+ dat.current_observation.weather + ", " + dat.current_observation.temperature_string + wind +  " in " + dat.current_observation.display_location.full);
     }else{
       callback("Nothing Found :(");
@@ -64,8 +72,8 @@ function processWeather(city, callback){ //callback is to send the message
 
 // api call: http://api.wunderground.com/api/bd26b1ab06a06eae/
 //function to call weather underground API, callback to processWeather
-function getWeather(city, callback){
-  var url = "http://api.wunderground.com/api/bd26b1ab06a06eae/conditions/q/pa/pittsburgh";
+function getWeather(city, stateOrCountry, callback){
+  var url = "http://api.wunderground.com/api/bd26b1ab06a06eae/conditions/q/" + stateOrCountry + "/" + city;
   var end = ".json"; //default ending for all queries
   var url = url + end; //append ending
   console.log("url:" + url);
