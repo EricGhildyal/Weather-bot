@@ -47,7 +47,7 @@ function processWeather(city, callback){ //callback is to send the message
 
 // api call: http://api.wunderground.com/api/bd26b1ab06a06eae/
 //function to call weather underground API, callback to processWeather
-function getWeather(city, opts, callback){
+function getWeather(city, callback){
   var url = "http://api.wunderground.com/api/bd26b1ab06a06eae/conditions/q/pa/pittsburgh";
   var end = ".json"; //default ending for all queries
   var url = url + end; //append ending
@@ -58,7 +58,6 @@ function getWeather(city, opts, callback){
   json: true
   }, function (error, response, body) {
     if (!error) {
-      console.log(body);
       callback(body); //send full JSON back
     }else{
       console.log("Error " + response.statusCode);
