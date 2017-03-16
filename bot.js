@@ -12,14 +12,14 @@ function respond() {
     this.res.writeHead(200);
     input = input.replace(/^ */g, ""); //remove weird whitespace being added
     input = input.toLowerCase();
-    input = input.split(',');
-    console.log("input: " + input.toString());
+    inputs = input.split(',');
+    console.log("inputs: " + inputs);
     var city = "";
     var stateOrCountry = ""
-    if(input.length < 2){
-      if(input.length != 0){
-        city = input[0];
-        stateOrCountry = input[1];
+    if(inputs.length < 2){
+      if(inputs.length != 0){
+        city = inputs[0];
+        stateOrCountry = inputs[1];
       }else{
         postMessage("Please enter [City], [State/Country]");
         return;
