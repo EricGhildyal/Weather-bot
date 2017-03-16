@@ -16,12 +16,13 @@ function respond() {
     console.log("input: " + input);
     var city = "";
     var stateOrCountry = ""
-    if(input.length < 2 && input.length != 0){
+    if(input.length < 2){
       postMessage("Please enter [City], [State/Country]");
       return;
-    }else{
+    }
+    if(input.length != 0){
       city = input[0];
-      if(input.length > 1) stateOrCountry = input[1];
+      stateOrCountry = input[1];  
     }
 
     if(city == "help"){ //first thing to check
