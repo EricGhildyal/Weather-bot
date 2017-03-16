@@ -13,7 +13,7 @@ function respond() {
     input = input.replace(/^ *?\//g, ""); //remove slashes and weird whitespace being added
     input = input.toLowerCase();
     inputs = input.split(/,?\s+/); //split by comma or space
-    consol.log(inputs.toString());
+    console.log(inputs.toString());
     var city = "";
     var stateOrCountry = ""
     if(inputs.length == 2){
