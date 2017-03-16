@@ -12,24 +12,42 @@ function respond() {
     this.res.writeHead(200);
     input = input.toLowerCase().replace(/\//g, ""); //remove slashes
     inputs = input.split(/,?\s+/); //split by comma or space
-    console.log(inputs.toString());
-    var city = "";
-    var stateOrCountry = ""
-    if(inputs.length == 2){
-        city = inputs[0];
-        stateOrCountry = inputs[1];
-    }else{
-      if(inputs.length == 0){ //no input, default to PGH
-        city = "pittsburgh";
-        stateOrCountry = "pa"
-      }else{
-        postMessage("Please enter [City] [State/Country]");
-        return;
-      }
+    console.log(inputs.toString() + " " + inputs.length);
+    var first = inputs[0]; //always pull the first one
+    var city = "-1";
+    var stateOrCountry = "-1"
+    var type = "-1"; //2 day, etc.
+    if(first == "help"){ //first thing to check
+      postMessage("Default city is Pittsburgh \n Use /weather [City] [State/Country] for other cities \n More features to come! (Weather API from weatherunderground)");
+      return;
     }
 
-    if(city == "help"){ //first thing to check
-      postMessage("Default city is Pittsburgh \n Use /weather [City] [State/Country] for other cities \n More features to come! (Weather API from weatherunderground)");
+    if(first == " "){
+      postMessage("You forgot to enter a location!");
+      return;
+    }
+
+    if(inputs.length == 0){ //no input, default to PGH
+      city = "pittsburgh";
+      stateOrCountry = "pa"
+    }
+
+    if(inputs.length == 2){
+      city = first; //our first input is probably the city
+      stateOrCountry = inputs[1];
+    }else{
+      postMessage("Please enter [City] [State/Country]");
+      return;
+    }
+
+    if(inputs.length == 3){ //city, state, type of forceast
+      city = first;
+      stateOrCountry = inputs[1];
+      type = inputs[2];
+    }
+
+    if(city.equals("-1") || stateOrCountry.equals("-1")){ //last fallback
+      postMessage("An error occurred");
       return;
     }
 
