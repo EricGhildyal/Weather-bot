@@ -58,6 +58,7 @@ function getWeather(city, opts, callback){
   json: true
   }, function (error, response, body) {
     if (!error) {
+      if(body == undefined) console.log("undef........");
       callback(body); //send full JSON back
     }else{
       console.log("Error " + response.statusCode);
