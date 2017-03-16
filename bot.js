@@ -52,13 +52,13 @@ function processWeather(city, stateOrCountry, callback){ //callback is to send t
         if(dat.wind_mph == undefined) return "";
         var ws = dat.wind_mph;
         if(ws >= 30){ //wind cutoffs from beafort scale
-          return " and very very very windy"
+          return ", and very very very windy"
         }else if(ws >= 23){
-          return " and very windy";
+          return ", and very windy";
         }else if(ws >= 15){
-          return " and windy";
+          return ", and windy";
         }else if(ws >= 8){
-          return " and slightly windy";
+          return ", and slightly windy";
         }else{
           return "";
         }
