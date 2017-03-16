@@ -74,8 +74,8 @@ function processWeather(city, stateOrCountry, callback){ //callback is to send t
 //function to call weather underground API, callback to processWeather
 function getWeather(city, stateOrCountry, callback){
   var baseUrl = "http://api.wunderground.com/api/bd26b1ab06a06eae/conditions/q/";
-  var end = ".json"; //default ending for all queries
-  var url = baseUrl + stateOrCountry + "/" + city + end; //append ending
+  var url = baseUrl + stateOrCountry + "/" + city + ".json";
+  console.log(url);
   request({
   url: url,
   method: 'GET',
