@@ -21,7 +21,7 @@ function respond() {
     }
 
     if(city == ""){ //if no city given, default to PGH
-      city = Pittsburgh;
+      city = "Pittsburgh";
     }
 
     processWeather(city, function(response){ //all other cities, process
