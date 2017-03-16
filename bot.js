@@ -13,27 +13,25 @@ function respond() {
     input = input.replace(/^ */g, ""); //remove weird whitespace being added
     input = input.toLowerCase();
     inputs = input.split(/,?\s+/); //split by comma or space
-    console.log("inputs: " + inputs);
+    console.log("inputs: " + inputs.toString());
     var city = "";
     var stateOrCountry = ""
-    if(inputs.length < 2){
-      if(inputs.length != 0){
+    if(inputs.length == 2){
         city = inputs[0];
         stateOrCountry = inputs[1];
-      }else{
-        postMessage("Please enter [City], [State/Country]");
-        return;
-      }
+    }else{
+      postMessage("Please enter [City], [State/Country]");
+      return;
+    }
+
+    if(inputs.length == 0){ //no input, default to PGH
+      city = "pittsburgh";
+      stateOrCountry = "pa"
     }
 
     if(city == "help"){ //first thing to check
       postMessage("Default city is Pittsburgh \n Use /weather [city] for other cities \n More features to come! (Weather API from weatherunderground)");
       return;
-    }
-
-    if(city == ""){ //if no city given, default to PGH
-      city = "pittsburgh";
-      stateOrCountry = "pa"
     }
 
     processWeather(city, stateOrCountry, function(response){ //all other cities, process
