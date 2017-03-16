@@ -25,11 +25,6 @@ function respond() {
       return;
     }
 
-    if(first == " "){
-      postMessage("You forgot to enter a location!");
-      return;
-    }
-
     if(inputs.length == 1){ //no input, default to PGH
       city = "pittsburgh";
       stateOrCountry = "pa";
@@ -47,7 +42,7 @@ function respond() {
     }
 
     if(city == "-1" || stateOrCountry == "-1"){ //last fallback
-      postMessage("An error occurred");
+      postMessage("Please use /weather [City] [State/Country]");
       return;
     }
 
@@ -99,6 +94,7 @@ function getWeather(city, stateOrCountry, callback){
   json: true
   }, function (error, response, body) {
     if (!error) {
+      //add check for a "results" return and take the first one
       callback(body.current_observation); //send full JSON back
     }else{
       console.log("Error " + response.statusCode);
