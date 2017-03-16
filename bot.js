@@ -39,7 +39,7 @@ function processWeather(city, callback){ //callback is to send the message
   getWeather(city, function(dat){
     if(dat != undefined){
       var wind = (function(dat){
-        console.log(dat.current_observation.wind_mph);
+        console.log(dat.current_observation);
         if(dat.current_observation.wind_mph == undefined) return;
         var ws = dat.current_observation.wind_mph;
         if(ws >= 30){ //wind cutoffs from beafort scale
