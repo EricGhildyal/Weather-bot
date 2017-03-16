@@ -3,8 +3,6 @@ var request = require('request');
 var mongoose = require('mongoose');
 
 var botID = process.env.BOT_ID;
-var APIKEY = bd26b1ab06a06eae;
-
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
