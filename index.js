@@ -4,30 +4,6 @@ http        = require('http');
 director    = require('director');
 bot         = require('./bot.js');
 
-var mongoose = require('mongoose');
-var mongoURI = process.env.MONGODB_URI;
-
-mongoose.connect(mongoURI);
-var db = mongoose.connection;
-db.on('error', function(err){
-  console.log("Connection to DB failed " + err);
-});
-db.on('open', function (){
-  console.log("Db connected");
-});
-
-var Schema = mongoose.Schema;
-var citySchema = new Schema({
-  "_id": Number,
-  "name": String,
-  "country": String,
-  "coord": {
-      "lon": Number,
-      "lat": Number
-  }
-});
-var cityModel = mongoose.model('cityModel', citySchema);
-
 router = new director.http.Router({
   '/' : {
     post: bot.respond,
@@ -49,8 +25,6 @@ server = http.createServer(function (req, res) {
 
 port = Number(process.env.PORT || 5000);
 server.listen(port);
-
-mongoose.disconnect();
 
 function ping() {
   this.res.writeHead(200);
