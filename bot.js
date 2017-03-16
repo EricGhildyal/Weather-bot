@@ -51,8 +51,9 @@ function processWeather(city, stateOrCountry, callback){ //callback is to send t
   getWeather(city, stateOrCountry, function(dat){
     if(dat != undefined){
       var wind = (function(dat){
-        if(dat.current_observation.wind_mph == undefined) return;
-        var ws = dat.current_observation.wind_mph;
+        console.log(dat);
+        if(dat.wind_mph == undefined) return;
+        var ws = dat.wind_mph;
         if(ws >= 30){ //wind cutoffs from beafort scale
           return " and very very very windy"
         }else if(ws >= 23){
@@ -65,7 +66,7 @@ function processWeather(city, stateOrCountry, callback){ //callback is to send t
           return;
         }
       })();
-      callback("It is currently "+ dat.current_observation.weather + ", " + dat.current_observation.temperature_string + wind +  " in " + dat.current_observation.display_location.full);
+      callback("It is currently "+ dat.weather + ", " + dat.temperature_string + wind +  " in " + dat.display_location.full);
     }else{
       callback("Nothing Found :(");
     }
@@ -85,7 +86,7 @@ function getWeather(city, stateOrCountry, callback){
   json: true
   }, function (error, response, body) {
     if (!error) {
-      callback(body); //send full JSON back
+      callback(body.current_observation); //send full JSON back
     }else{
       console.log("Error " + response.statusCode);
     }
