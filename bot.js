@@ -13,16 +13,17 @@ function respond() {
     input = input.replace(/^ */g, ""); //remove weird whitespace being added
     input = input.toLowerCase();
     input = input.split(',');
-    console.log("input: " + input);
+    console.log("input: " + input.toString());
     var city = "";
     var stateOrCountry = ""
     if(input.length < 2){
-      postMessage("Please enter [City], [State/Country]");
-      return;
-    }
-    if(input.length != 0){
-      city = input[0];
-      stateOrCountry = input[1];  
+      if(input.length != 0){
+        city = input[0];
+        stateOrCountry = input[1];
+      }else{
+        postMessage("Please enter [City], [State/Country]");
+        return;
+      }
     }
 
     if(city == "help"){ //first thing to check
