@@ -16,7 +16,7 @@ function respond() {
     city = input;
 
     if(city == "help"){ //first thing to check
-      postMessage("Default city is Pittsburgh \n Use /weather [city] for other cities \n More features to come!");
+      postMessage("Default city is Pittsburgh \n Use /weather [city] for other cities \n More features to come! (Weather API from weatherunderground)");
       return; //end the response early
     }
 
