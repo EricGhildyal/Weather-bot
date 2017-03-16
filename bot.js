@@ -20,7 +20,8 @@ function respond() {
     }
 
     if(city == ""){ //if no city given, default to PGH
-      city = "Pittsburgh";
+      city = "pittsburgh";
+      stateCountry = "pa"
     }
 
     processWeather(city, function(response){ //all other cities, process
@@ -35,10 +36,25 @@ function respond() {
 }
 
 function processWeather(city, callback){ //callback is to send the message
-  var cityUpper = city.substring(0,1).toUpperCase() + city.substring(1); //make sure first letter is capitalized
-  getWeather(cityUpper, function(dat){
+  getWeather(city, function(dat){
     if(dat != undefined){
-      callback("It is currently " + dat.current_observation.temperature_string + " in " + dat.current_observation.display_location.full);
+      var wind = (function(dat){
+        if(dat.current_observation.wind_mph; == undefined) return;
+        var ws = dat.current_observation.wind_mph;
+        if(ws >= 30){ //wind cutoffs from beafort scale
+          return " and very very very windy"
+        }else if(ws >= 23){
+          return " and very windy";
+        }else if(ws >= 15){
+          return " and windy";
+        }else if(ws >= 8){
+          return " and slightly windy";
+        }else{
+          return "";
+        }
+      })();
+      var snowRain
+      callback("It is currently "+ dat.current_observation.weather + ", " + dat.current_observation.temperature_string + wind +  " in " + dat.current_observation.display_location.full);
     }else{
       callback("Nothing Found :(");
     }
