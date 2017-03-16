@@ -10,7 +10,8 @@ function respond() {
   if(request.text && botRegex.test(request.text)) {
     var input = request.text.replace(botRegex, ""); //strip "/weather "
     this.res.writeHead(200);
-    input = input.toLowerCase().replace(/(^\s*)(\/)/g, ""); //remove slashes and whitespace
+    input = input.replace(/^\s*/g, ""); //remove beginning whitespace
+    input = input.replace(/\/*/g, ""); //remove slashes
     console.log("input:" + input);
     inputs = input.split(/,?\s+/); //split by comma or space
     console.log(inputs.toString() + " " + inputs.length);
@@ -37,9 +38,6 @@ function respond() {
     if(inputs.length == 2){
       city = first; //our first input is probably the city
       stateOrCountry = inputs[1];
-    }else{
-      postMessage("Please enter [City] [State/Country]");
-      return;
     }
 
     if(inputs.length == 3){ //city, state, type of forceast
