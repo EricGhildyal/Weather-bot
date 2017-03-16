@@ -49,7 +49,7 @@ function processWeather(city, stateOrCountry, callback){ //callback is to send t
   getWeather(city, stateOrCountry, function(dat){
     if(dat != undefined){
       var wind = (function(dat){
-        if(dat.wind_mph == undefined) return;
+        if(dat.wind_mph == undefined) return "";
         var ws = dat.wind_mph;
         if(ws >= 30){ //wind cutoffs from beafort scale
           return " and very very very windy"
@@ -60,7 +60,7 @@ function processWeather(city, stateOrCountry, callback){ //callback is to send t
         }else if(ws >= 8){
           return " and slightly windy";
         }else{
-          return;
+          return "";
         }
       })(dat); //pass var into method
       callback("It is currently "+ dat.weather + ", " + dat.temperature_string + wind +  " in " + dat.display_location.full);
