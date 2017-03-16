@@ -20,13 +20,13 @@ function respond() {
         city = inputs[0];
         stateOrCountry = inputs[1];
     }else{
-      postMessage("Please enter [City] [State/Country]");
-      return;
-    }
-
-    if(inputs.length == 0){ //no input, default to PGH
-      city = "pittsburgh";
-      stateOrCountry = "pa"
+      if(inputs.length == 0){ //no input, default to PGH
+        city = "pittsburgh";
+        stateOrCountry = "pa"
+      }else{
+        postMessage("Please enter [City] [State/Country]");
+        return;
+      }
     }
 
     if(city == "help"){ //first thing to check
