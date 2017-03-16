@@ -10,17 +10,17 @@ function respond() {
   if(request.text && botRegex.test(request.text)) {
     var input = request.text.replace(/\/weather/g, ' '); //strip "/weather "
     this.res.writeHead(200);
-    input = input.replace(/^ */g, ""); //remove weird whitespace being added
+    input = input.replace(/^ *?\//g, ""); //remove slashes and weird whitespace being added
     input = input.toLowerCase();
     inputs = input.split(/,?\s+/); //split by comma or space
-    console.log("inputs: " + inputs.length);
+    consol.log(inputs.toString());
     var city = "";
     var stateOrCountry = ""
     if(inputs.length == 2){
         city = inputs[0];
         stateOrCountry = inputs[1];
     }else{
-      postMessage("Please enter [City], [State/Country]");
+      postMessage("Please enter [City] [State/Country]");
       return;
     }
 
@@ -30,7 +30,7 @@ function respond() {
     }
 
     if(city == "help"){ //first thing to check
-      postMessage("Default city is Pittsburgh \n Use /weather [city] for other cities \n More features to come! (Weather API from weatherunderground)");
+      postMessage("Default city is Pittsburgh \n Use /weather [City] [State/Country] for other cities \n More features to come! (Weather API from weatherunderground)");
       return;
     }
 
@@ -73,10 +73,9 @@ function processWeather(city, stateOrCountry, callback){ //callback is to send t
 // api call: http://api.wunderground.com/api/bd26b1ab06a06eae/
 //function to call weather underground API, callback to processWeather
 function getWeather(city, stateOrCountry, callback){
-  var url = "http://api.wunderground.com/api/bd26b1ab06a06eae/conditions/q/" + stateOrCountry + "/" + city;
+  var baseUrl = "http://api.wunderground.com/api/bd26b1ab06a06eae/conditions/q/";
   var end = ".json"; //default ending for all queries
-  var url = url + end; //append ending
-  console.log("url:" + url);
+  var url = baseUrl + stateOrCountry + "/" + city + end; //append ending
   request({
   url: url,
   method: 'GET',
