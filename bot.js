@@ -12,7 +12,7 @@ function respond() {
     this.res.writeHead(200);
     input = input.replace(/^ */g, ""); //remove weird whitespace being added
     input = input.toLowerCase();
-    input = input.split(,);
+    input = input.split(',');
     console.log("input: " + input);
     var city = "";
     var stateOrCountry = ""
