@@ -87,11 +87,12 @@ function wind(dat){
 
 function highLow(dat, day){
   if(dat.high == undefined || dat.low == undefined) return "";
+  console.log(dat.high.fahrenheit + " " + dat.low.fahrenheit)
   var highF = dat.high.fahrenheit;
   var highC = dat.high.celsius;
   var lowF = dat.low.fahrenheit;
   var lowC = dat.low.celsius;
-  return "The high for " + (day) ? "today": "tomorrow" + " will be " + highF + "(" + highC + ") low:" + lowF + "(" + lowC + ")";
+  return ("The high for " + (day ? "today" : "tomorrow") + " will be " + highF + " (" + highC + ") low: " + lowF + " (" + lowC + ")");
 
 }
 
@@ -108,7 +109,6 @@ function getWeather(city, stateOrCountry, callback){
   }, function (error, response, body) {
     if (!error) {
       //add check for a "results" return and take the first one
-      console.log(body.forecast.simpleforecast);
       callback(body.forecast.simpleforecast); //send full JSON back
     }else{
       console.log("Error " + response.statusCode);
