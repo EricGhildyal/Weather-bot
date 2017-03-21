@@ -62,7 +62,7 @@ function processWeather(city, stateOrCountry, callback){ //callback is to send t
     if(dat != undefined){
       var today = dat.forecastday[0];
       var tom = dat.forecastday[1];
-      callback(highLow(today, 1) + " " + wind(today) +  " in " + city.charAt(0).toUpperCase() + city.slice(1));
+      callback("It is " + today.conditions + ", " + highLow(today, 1) + " " + wind(today) +  " in " + city.charAt(0).toUpperCase() + city.slice(1));
     }else{
       callback("Nothing Found :(");
     }
