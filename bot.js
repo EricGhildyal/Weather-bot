@@ -108,8 +108,8 @@ function getWeather(city, stateOrCountry, callback){
   }, function (error, response, body) {
     if (!error) {
       //add check for a "results" return and take the first one
-      console.log(body.forecast);
-      callback(body.forecast); //send full JSON back
+      console.log(body.forecast.simpleforecast);
+      callback(body.forecast.simpleforecast); //send full JSON back
     }else{
       console.log("Error " + response.statusCode);
     }
