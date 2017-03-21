@@ -60,32 +60,45 @@ function respond() {
 function processWeather(city, stateOrCountry, callback){ //callback is to send the message
   getWeather(city, stateOrCountry, function(dat){
     if(dat != undefined){
-      var wind = (function(dat){
-        if(dat.wind_mph == undefined) return "";
-        var ws = dat.wind_mph;
-        if(ws >= 30){ //wind cutoffs from beafort scale
-          return ", and very very very windy"
-        }else if(ws >= 23){
-          return ", and very windy";
-        }else if(ws >= 15){
-          return ", and windy";
-        }else if(ws >= 8){
-          return ", and slightly windy";
-        }else{
-          return "";
-        }
-      })(dat); //pass var into method
-      callback("It is currently "+ dat.weather + ", " + dat.temperature_string + wind +  " in " + dat.display_location.full);
+      var today = dat.forecastday[0];
+      var tom = dat.forcecastday[0];
+      callback(highLow(today, 1) + " " + wind(today) +  " in " + city.charAt(0).toUpperCase() + city.slice(1));
     }else{
       callback("Nothing Found :(");
     }
   });
 }
 
+function wind(dat){
+  if(dat.avewind.mph == undefined) return "";
+  var ws = dat.avewind.mph;
+  if(ws >= 30){ //wind cutoffs from beafort scale
+    return " and very very very windy"
+  }else if(ws >= 23){
+    return " and very windy";
+  }else if(ws >= 15){
+    return " and windy";
+  }else if(ws >= 8){
+    return " and slightly windy";
+  }else{
+    return "";
+  }
+}
+
+function highLow(dat, day){
+  if(dat.high == undefined || dat.low == undefined) return "";
+  var highF = dat.high.fahrenheit;
+  var highC = dat.high.celsius;
+  var lowF = dat.low.fahrenheit;
+  var lowC = dat.low.celsius;
+  return "The high for " + (day) ? "today": "tomorrow" + " will be " + highF + "(" + highC + ") low:" + lowF + "(" + lowC + ")";
+
+}
+
 // api call: http://api.wunderground.com/api/bd26b1ab06a06eae/
 //function to call weather underground API, callback to processWeather
 function getWeather(city, stateOrCountry, callback){
-  var baseUrl = "http://api.wunderground.com/api/bd26b1ab06a06eae/conditions/q/";
+  var baseUrl = "http://api.wunderground.com/api/bd26b1ab06a06eae/forecast/q/";
   var url = baseUrl + stateOrCountry + "/" + city + ".json";
   console.log(url);
   request({
@@ -95,7 +108,8 @@ function getWeather(city, stateOrCountry, callback){
   }, function (error, response, body) {
     if (!error) {
       //add check for a "results" return and take the first one
-      callback(body.current_observation); //send full JSON back
+      console.log(body.forecast);
+      callback(body.forecast); //send full JSON back
     }else{
       console.log("Error " + response.statusCode);
     }
