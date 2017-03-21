@@ -62,8 +62,9 @@ function processWeather(city, stateOrCountry, callback){ //callback is to send t
     if(dat != undefined){
       var today = dat.forecastday[0];
       var tom = dat.forecastday[1];
-      callback("In " + city.charAt(0).toUpperCase() + city.slice(1) + ", it is currently " + today.conditions + ", " + highLow(today, 1) + " " + wind(today) +
-      "\n tomorrow, it will be " + tom.conditions + ", " + highLow(tom, 0) + " " + wind(tom));
+      callback("In " + city.charAt(0).toUpperCase() + city.slice(1) + ", it is currently " + today.conditions.toLowerCase() + ".\n "
+      + high(today, 1) + " " + wind(today) +
+      "\n tomorrow, it will be " + tom.conditions.toLowerCase() + ", " + high(tom, 0) + " " + wind(tom));
     }else{
       callback("Nothing Found :(");
     }
@@ -86,14 +87,14 @@ function wind(dat){
   }
 }
 
-function highLow(dat, day){
+function high(dat, day){
   if(dat.high == undefined || dat.low == undefined) return "";
   console.log(dat.high.fahrenheit + " " + dat.low.fahrenheit)
   var highF = dat.high.fahrenheit;
   var highC = dat.high.celsius;
   var lowF = dat.low.fahrenheit;
   var lowC = dat.low.celsius;
-  return ("The high for " + (day ? "today" : "tomorrow") + " will be " + highF + " (" + highC + ")  (low:" + lowF + " (" + lowC + "))");
+  return ("The high for " + (day ? "today" : "tomorrow") + " will be " + highF + " (" + highC + ")");
 
 }
 
