@@ -28,17 +28,20 @@ function respond() {
     if(inputs.length == 1){ //no input, default to PGH
       city = "pittsburgh";
       stateOrCountry = "pa";
+      console.log("deafult");
     }
 
     if(inputs.length == 2){
       city = first; //our first input is probably the city
       stateOrCountry = inputs[1];
+      console.log("city and state");
     }
 
     if(inputs.length == 3){ //city, state, type of forceast
       city = first;
       stateOrCountry = inputs[1];
       type = inputs[2];
+      console.log("city and state and type");
     }
 
     if(city == "-1" || stateOrCountry == "-1"){ //last fallback
@@ -60,6 +63,7 @@ function respond() {
 function processWeather(city, stateOrCountry, callback){ //callback is to send the message
   getWeather(city, stateOrCountry, function(dat){
     if(dat != undefined){
+      console.log(dat);
       var today = dat.forecastday[0];
       var tom = dat.forecastday[1];
       callback("In " + city.charAt(0).toUpperCase() + city.slice(1) + ", it is currently " + today.conditions.toLowerCase() + ".\n "
