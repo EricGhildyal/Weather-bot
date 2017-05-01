@@ -12,9 +12,7 @@ function respond() {
     this.res.writeHead(200);
     input = input.replace(/^\s*/g, ""); //remove beginning whitespace
     input = input.replace(/\/*/g, ""); //remove slashes
-    console.log("input:" + input);
     inputs = input.split(/,?\s+/); //split by comma or space
-    console.log(inputs.toString() + " " + inputs.length);
     var first = inputs[0]; //always pull the first one
     var city = "-1";
     var stateOrCountry = "-1";
@@ -28,20 +26,17 @@ function respond() {
     if(inputs.length == 1){ //no input, default to PGH
       city = "pittsburgh";
       stateOrCountry = "pa";
-      console.log("deafult");
     }
 
     if(inputs.length == 2){
       city = first; //our first input is probably the city
       stateOrCountry = inputs[1];
-      console.log("city and state");
     }
 
     if(inputs.length == 3){ //city, state, type of forceast
       city = first;
       stateOrCountry = inputs[1];
       type = inputs[2];
-      console.log("city and state and type");
     }
 
     if(city == "-1" || stateOrCountry == "-1"){ //last fallback
@@ -65,7 +60,8 @@ function processWeather(city, stateOrCountry, callback){ //callback is to send t
     if(dat != undefined){
       console.log(dat);
       var today = dat.forecastday[0];
-      var tom = dat.forecastday[1];
+      var tom = (dat.forecastday[1].title.includes("night")) ? dat.forecastday[2] : dat.forecastday[1];
+      console.log(dat.forecastday[1].title.includes("night"));
       callback("In " + city.charAt(0).toUpperCase() + city.slice(1) + ", it is currently " + today.conditions.toLowerCase() + ".\n "
       + high(today, 1) + " " + wind(today) +
       "\n tomorrow, it will be " + tom.conditions.toLowerCase() + ", " + high(tom, 0) + " " + wind(tom));
