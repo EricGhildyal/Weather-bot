@@ -60,8 +60,8 @@ function processWeather(city, stateOrCountry, callback){ //callback is to send t
     if(dat != undefined){
       console.log(dat);
       var today = dat.forecastday[0];
-      var tom = (dat.forecastday[1].title.includes("night")) ? dat.forecastday[2] : dat.forecastday[1];
-      console.log(dat.forecastday[1].title.includes("night"));
+      var tom = (dat.forecastday[1].title.contains("night")) ? dat.forecastday[2] : dat.forecastday[1];
+      console.log(dat.forecastday[1].title.contains("night"));
       callback("In " + city.charAt(0).toUpperCase() + city.slice(1) + ", it is currently " + today.conditions.toLowerCase() + ".\n "
       + high(today, 1) + " " + wind(today) +
       "\n tomorrow, it will be " + tom.conditions.toLowerCase() + ", " + high(tom, 0) + " " + wind(tom));
