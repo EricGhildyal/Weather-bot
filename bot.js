@@ -23,6 +23,8 @@ function respond() {
       return;
     }
 
+    console.log(inputs.toString());
+
     if(inputs.length == 1){
       if(inputs[0] != ""){
         postMessage("Please use /weather [City] [State/Country]");
