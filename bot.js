@@ -63,16 +63,30 @@ function respond() {
 function processWeather(city, stateOrCountry, callback){ //callback is to send the message
   getWeather(city, stateOrCountry, function(dat){
     if(dat != undefined){
-      console.log(dat);
       var today = dat.forecastday[0];
       var tom = dat.forecastday[1];
-      callback("In " + city.charAt(0).toUpperCase() + city.slice(1) + ", it is currently " + today.conditions.toLowerCase() + ".\n "
-      + high(today, 0) + " " + wind(today) + "\n Tomorrow, it will be " + tom.conditions.toLowerCase()
+      callback("In " + city.charAt(0).toUpperCase() + city.slice(1) + ", it is currently " + getWeatherConditions(today.conditions.toLowerCase()) + ".\n "
+      + high(today, 0) + " " + wind(today) + "\n Tomorrow, it will be " + getWeatherConditions(tom.conditions.toLowerCase())
       + ",\n " + high(tom, 1) + " " + wind(tom));
     }else{
       callback("Nothing Found :(");
     }
   });
+}
+
+function getWeatherConditions(weather){
+  switch(weather){
+    case "overcast":
+      return "overcast";
+      break;
+    case weather.contains(chance):
+      return "a" + weather; //just add 'a' before the weather string
+      break;
+    case "thunderstorm":
+      return "thunderstorming";
+      break;
+
+  }
 }
 
 function wind(dat){
