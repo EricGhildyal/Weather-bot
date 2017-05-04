@@ -75,7 +75,6 @@ function processWeather(city, stateOrCountry, callback){ //callback is to send t
 }
 
 function getWeatherConditions(weather){
-  console.log("search " + weather.search("/chance/"));
   if(weather.search("/chance/") != -1){ //separately check for anything with 'chance'
       return "a " + weather; //just add 'a' before the weather string
   }
@@ -83,10 +82,26 @@ function getWeatherConditions(weather){
     case "thunderstorm":
       return "thunderstorming";
       break;
+    case "rain" || "rain showers":
+      return "raining";
+      break;
+    case "snow" || "snow showers":
+      return "snowing";
+      break;
+    case "fog" || "shallow fog" || "partial fog":
+      return "foggy";
+      break;
+    case "haze":
+      return "hazy";
+      break;
+    case "smoke":
+      return "smokey";
+      break;
+    case "scattered clouds":
+      return "scattered cloudy"
     default:
       return weather;
       break;
-
   }
 }
 
@@ -112,7 +127,7 @@ function high(dat, day){
   var highC = dat.high.celsius;
   var lowF = dat.low.fahrenheit;
   var lowC = dat.low.celsius;
-  return ((day ? "and the high" : "The high for today") + " will be " + highF + " (" + highC + ")");
+  return ((day ? "with a high of " : "The high for today will be ") + highF + " (" + highC + ")");
 
 }
 
