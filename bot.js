@@ -98,7 +98,7 @@ function high(dat, day){
   var highC = dat.high.celsius;
   var lowF = dat.low.fahrenheit;
   var lowC = dat.low.celsius;
-  return ("The high for " + (day ? "tomorrow" : "today") + " will be " + highF + " (" + highC + ")");
+  return ((day ? "and the high" : "The high for today") + " will be " + highF + " (" + highC + ")");
 
 }
 
