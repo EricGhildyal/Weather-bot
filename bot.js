@@ -84,7 +84,7 @@ function getWeatherConditions(weather){
       return "thunderstorming";
       break;
     default:
-      return w;
+      return weather;
       break;
 
   }
