@@ -79,7 +79,7 @@ function getWeatherConditions(weather){
     case "overcast":
       return "overcast";
       break;
-    case weather.contains(chance):
+    case weather.contains("chance"):
       return "a" + weather; //just add 'a' before the weather string
       break;
     case "thunderstorm":
