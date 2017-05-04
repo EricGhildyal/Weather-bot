@@ -23,7 +23,7 @@ function respond() {
       return;
     }
 
-    console.log("inputs: " + inputs);
+    console.log("inputs: " + inputs.length);
 
     if(inputs.length == 0){ //no input, default to PGH
       city = "pittsburgh";
