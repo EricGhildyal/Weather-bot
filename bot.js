@@ -65,7 +65,7 @@ function respond() {
 function processWeather(city, stateOrCountry, callback){ //callback is to send the message
   getWeather(city, stateOrCountry, function(dat){
     if(dat != undefined){
-      console.log(dat);
+      // console.log(dat);
       var today = dat.forecastday[0];
       var tom = dat.forecastday[2];
       callback("In " + city.charAt(0).toUpperCase() + city.slice(1) + ", it is currently " + today.conditions.toLowerCase() + ".\n "
@@ -141,7 +141,7 @@ function postMessage(resp) {
     "text" : botResponse
   };
 
-  console.log('sending ' + botResponse + ' to ' + botID);
+  // console.log('sending ' + botResponse + ' to ' + botID);
 
   botReq = HTTPS.request(options, function(res) {
       if(res.statusCode == 202) {
