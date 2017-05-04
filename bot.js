@@ -23,9 +23,16 @@ function respond() {
       return;
     }
 
-    if(inputs.length == 1){ //no input, default to PGH
+    console.log("inputs: " + inputs);
+
+    if(inputs.length == 0){ //no input, default to PGH
       city = "pittsburgh";
       stateOrCountry = "pa";
+    }
+
+    if(inputs.length == 1){
+      postMessage("Please use /weather [City] [State/Country]");
+      return;
     }
 
     if(inputs.length == 2){
@@ -62,8 +69,8 @@ function processWeather(city, stateOrCountry, callback){ //callback is to send t
       var today = dat.forecastday[0];
       var tom = dat.forecastday[2];
       callback("In " + city.charAt(0).toUpperCase() + city.slice(1) + ", it is currently " + today.conditions.toLowerCase() + ".\n "
-      + high(today, 0) + " " + wind(today) +
-      "\n tomorrow, it will be " + tom.conditions.toLowerCase() + ", " + high(tom, 1) + " " + wind(tom));
+      + high(today, 0) + " " + wind(today) + "\n tomorrow, it will be " + tom.conditions.toLowerCase()
+      + ", " + high(tom, 1) + " " + wind(tom));
     }else{
       callback("Nothing Found :(");
     }
