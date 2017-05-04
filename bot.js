@@ -75,17 +75,17 @@ function processWeather(city, stateOrCountry, callback){ //callback is to send t
 }
 
 function getWeatherConditions(weather){
-  var weather = weather.toString(); //set weather to string
-  if(weather.contains("chance")){ //separately check for anyhting with 'chance'
-      return "a " + weather; //just add 'a' before the weather string
+  var w = weather.toString();
+  if(w.contains("chance")){ //separately check for anyhting with 'chance'
+      return "a " + w; //just add 'a' before the weather string
       return;
   }
-  switch(weather.toString()){ //switch to string becasue it's an object, apparently...
+  switch(w){ //switch to string becasue it's an object, apparently...
     case "thunderstorm":
       return "thunderstorming";
       break;
     default:
-      return weather;
+      return w;
       break;
 
   }
