@@ -75,6 +75,7 @@ function processWeather(city, stateOrCountry, callback){ //callback is to send t
 }
 
 function getWeatherConditions(weather){
+  console.log(typeof(weather));
   var w = weather.toString();
   if(w.contains("chance")){ //separately check for anyhting with 'chance'
       return "a " + w; //just add 'a' before the weather string
