@@ -88,7 +88,7 @@ function getWeatherConditions(weather){
     case "snow" || "snow showers":
       return "snowing";
       break;
-    case "fog" || "shallow fog" || "partial fog":
+    case "fog" || "shallow fog" || "partial fog" || "fog patches":
       return "foggy";
       break;
     case "haze":
@@ -98,7 +98,9 @@ function getWeatherConditions(weather){
       return "smokey";
       break;
     case "scattered clouds":
-      return "scattered cloudy"
+      return "scattered cloudy"; //idk...
+      break;
+    case ""
     default:
       return weather;
       break;
