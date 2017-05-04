@@ -100,7 +100,6 @@ function getWeatherConditions(weather){
     case "scattered clouds":
       return "scattered cloudy"; //idk...
       break;
-    case ""
     default:
       return weather;
       break;
