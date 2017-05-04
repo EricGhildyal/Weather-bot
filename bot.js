@@ -79,7 +79,7 @@ function getWeatherConditions(weather){
       return "a" + weather; //just add 'a' before the weather string
       return;
   }
-  switch(weather{ //switch to string becasue it's an object, apparently...
+  switch(weather){ //switch to string becasue it's an object, apparently...
     case "overcast":
       return "overcast";
       break;
