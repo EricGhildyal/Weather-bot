@@ -74,6 +74,7 @@ function processWeather(city, stateOrCountry, callback){ //callback is to send t
   });
 }
 
+//use https://www.wunderground.com/weather/api/d/docs?d=resources/phrase-glossary&MR=1
 function getWeatherConditions(weather){
   if(weather.search("/chance/") != -1){ //separately check for anything with 'chance'
       return "a " + weather; //just add 'a' before the weather string
@@ -82,13 +83,13 @@ function getWeatherConditions(weather){
     case "thunderstorm":
       return "thunderstorming";
       break;
-    case "rain" || "rain showers":
+    case "rain": case "rain showers":
       return "raining";
       break;
-    case "snow" || "snow showers":
+    case "snow": case "snow showers":
       return "snowing";
       break;
-    case "fog" || "shallow fog" || "partial fog" || "fog patches":
+    case "fog": case "shallow fog": case "partial fog": case "fog patches":
       return "foggy";
       break;
     case "haze":
@@ -98,7 +99,7 @@ function getWeatherConditions(weather){
       return "smokey";
       break;
     case "scattered clouds":
-      return "scattered cloudy"; //idk...
+      return "cloudy";
       break;
     default:
       return weather;
@@ -144,6 +145,7 @@ function getWeather(city, stateOrCountry, callback){
   json: true
   }, function (error, response, body) {
     if (!error) {
+      console.log(response);
       //add check for a "results" return and take the first one
       callback(body.forecast.simpleforecast); //send full JSON back
     }else{
