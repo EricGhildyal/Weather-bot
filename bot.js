@@ -23,8 +23,8 @@ function respond() {
       return;
     }
 
-    if(inputs.length == 1){
-      if(inputs[0] != ""){
+    if(inputs.length == 1){ //it's either empty or there is one input
+      if(inputs[0] != ""){ //there is one input, not sure what to do with it
         postMessage("Please use /weather [City] [State/Country]");
         return;
       }else{ //no input, default to PGH
@@ -54,7 +54,7 @@ function respond() {
     });
     this.res.end();
   } else {
-    console.log("don't care");
+    // console.log("don't care");
     this.res.writeHead(200);
     this.res.end();
   }
@@ -63,12 +63,12 @@ function respond() {
 function processWeather(city, stateOrCountry, callback){ //callback is to send the message
   getWeather(city, stateOrCountry, function(dat){
     if(dat != undefined){
-      // console.log(dat);
+      console.log(dat);
       var today = dat.forecastday[0];
-      var tom = dat.forecastday[2];
+      var tom = dat.forecastday[1];
       callback("In " + city.charAt(0).toUpperCase() + city.slice(1) + ", it is currently " + today.conditions.toLowerCase() + ".\n "
-      + high(today, 0) + " " + wind(today) + "\n tomorrow, it will be " + tom.conditions.toLowerCase()
-      + ", " + high(tom, 1) + " " + wind(tom));
+      + high(today, 0) + " " + wind(today) + "\n Tomorrow, it will be " + tom.conditions.toLowerCase()
+      + ",\n " + high(tom, 1) + " " + wind(tom));
     }else{
       callback("Nothing Found :(");
     }
