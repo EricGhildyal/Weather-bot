@@ -76,11 +76,10 @@ function processWeather(city, stateOrCountry, callback){ //callback is to send t
 
 function getWeatherConditions(weather){
   console.log("search " + weather.search("/chance/"));
-  if(weather.search("/chance/")){ //separately check for anyhting with 'chance'
+  if(weather.search("/chance/") != -1){ //separately check for anything with 'chance'
       return "a " + weather; //just add 'a' before the weather string
-      return;
   }
-  switch(weather){ //switch to string becasue it's an object, apparently...
+  switch(weather){
     case "thunderstorm":
       return "thunderstorming";
       break;
@@ -109,7 +108,6 @@ function wind(dat){
 
 function high(dat, day){
   if(dat.high == undefined || dat.low == undefined) return "";
-  console.log(dat.high.fahrenheit + " " + dat.low.fahrenheit)
   var highF = dat.high.fahrenheit;
   var highC = dat.high.celsius;
   var lowF = dat.low.fahrenheit;
