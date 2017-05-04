@@ -23,18 +23,16 @@ function respond() {
       return;
     }
 
-    console.log(inputs.toString());
+    console.log(;
 
     if(inputs.length == 1){
       if(inputs[0] != ""){
         postMessage("Please use /weather [City] [State/Country]");
         return;
+      }else{ //no input, default to PGH
+        city = "pittsburgh";
+        stateOrCountry = "pa";
       }
-    }
-
-    if(inputs.length == 0){ //no input, default to PGH
-      city = "pittsburgh";
-      stateOrCountry = "pa";
     }
 
     if(inputs.length == 2){
